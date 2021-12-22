@@ -1,0 +1,9 @@
+{
+  "name": "@zhihu/tsconfig",
+  "description": "zhihu utils's TypeScript configuration",
+  "version": "1.0.0",
+  "main": "tsconfig.json",
+  "devDependencies": {
+    "@xiao-ai/utils": "^1.4.3"
+  }
+}
