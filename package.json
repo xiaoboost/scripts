@@ -5,10 +5,8 @@
   "author": "xiaoboost",
   "license": "MIT",
   "scripts": {
-    "build1": "esbuild src/index.ts --bundle --format=iife --outfile=dist/index.js",
-    "build2": "webpack --node-env production -c ./webpack.config.js",
-    "watch2": "webpack serve --node-env development -c ./webpack.config.js",
-    "build": "vite build -c ./vite.config.ts"
+    "build": "node ./build/build.mjs",
+    "watch": "node ./build/watch.mjs"
   },
   "repository": {
     "type": "git",
@@ -25,6 +23,7 @@
     "@types/node": "^17.0.4",
     "@typescript-eslint/eslint-plugin": "^5.8.0",
     "@typescript-eslint/parser": "^5.8.0",
+    "clean-css": "^5.2.2",
     "esbuild": "^0.14.8",
     "eslint": "^8.5.0",
     "moment": "^2.29.1",

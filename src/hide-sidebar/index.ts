@@ -1,4 +1,3 @@
-import css from './index.css';
+import { log } from 'src/utils/log';
 
-console.log(css);
-console.log('hide-sidebar');
+log('hide-sidebar');

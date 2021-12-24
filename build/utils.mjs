@@ -4,9 +4,12 @@ import fs from 'fs';
 import moment from 'moment';
 import Module from 'module';
 
+import { CssLoader } from './css-loader.mjs';
+
 const filename = normalize(url.fileURLToPath(import.meta.url));
 const dirname = normalize(path.resolve(filename, '..'));
-const require = Module.createRequire(import.meta.url);
+
+export const require = Module.createRequire(import.meta.url);
 
 export function resolve(...dir) {
   return normalize(path.join(dirname, '..', ...dir));
@@ -29,6 +32,7 @@ export const baseConfig = {
   bundle: true,
   platform: 'browser',
   format: 'iife',
+  logLevel: 'info',
   legalComments: 'none',
   outfile: resolve('dist/index.js'),
   mainFields: ['module', 'main'],
@@ -41,7 +45,7 @@ export const baseConfig = {
     'provess.env.BUILD': `"${buildTag}"`,
     'provess.env.VERSION': `"${version}"`,
   },
-  loader: {
-    '.css': 'text',
-  },
+  plugins: [
+    CssLoader(),
+  ],
 };
