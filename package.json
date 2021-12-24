@@ -5,19 +5,29 @@
   "author": "xiaoboost",
   "license": "MIT",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build1": "esbuild src/index.ts --bundle --format=iife --outfile=dist/index.js",
+    "build2": "webpack --node-env production -c ./webpack.config.js",
+    "watch2": "webpack serve --node-env development -c ./webpack.config.js",
+    "build": "vite build -c ./vite.config.ts"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/xiaoboost/zhihu-utils.git"
   },
   "engines": {
-    "pnpm": ">= 6.0.0"
+    "pnpm": ">= 6.0.0",
+    "node": ">= 12"
+  },
+  "dependencies": {
+    "@xiao-ai/utils": "^1.4.3"
   },
   "devDependencies": {
+    "@types/node": "^17.0.4",
     "@typescript-eslint/eslint-plugin": "^5.8.0",
     "@typescript-eslint/parser": "^5.8.0",
+    "esbuild": "^0.14.8",
     "eslint": "^8.5.0",
+    "moment": "^2.29.1",
     "typescript": "^4.5.4"
   }
 }
