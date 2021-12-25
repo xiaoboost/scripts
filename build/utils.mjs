@@ -4,8 +4,6 @@ import fs from 'fs';
 import moment from 'moment';
 import Module from 'module';
 
-import { CssLoader } from './css-loader.mjs';
-
 const filename = normalize(url.fileURLToPath(import.meta.url));
 const dirname = normalize(path.resolve(filename, '..'));
 
@@ -45,7 +43,4 @@ export const baseConfig = {
     'provess.env.BUILD': `"${buildTag}"`,
     'provess.env.VERSION': `"${version}"`,
   },
-  plugins: [
-    CssLoader(),
-  ],
 };

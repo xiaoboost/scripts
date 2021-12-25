@@ -1,4 +1,4 @@
-const prefix = '[zhihu-utils] ';
+const prefix = '[zhihu-utils]';
 
 export function log(...message: any[]) {
   if (process.env.NODE_ENV === 'development') {
