@@ -1,0 +1,10 @@
+/* 主页问题列表 */
+.Topstory-mainColumn {
+  width: 100% !important;
+  margin: 0 !important;
+}
+
+/* 主页侧边栏 */
+.GlobalSideBar {
+  display: none;
+}
