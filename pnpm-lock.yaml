@@ -5,17 +5,21 @@ importers:
   .:
     specifiers:
       '@types/node': ^17.0.4
+      '@types/tampermonkey': ^4.0.5
       '@typescript-eslint/eslint-plugin': ^5.8.0
       '@typescript-eslint/parser': ^5.8.0
       '@xiao-ai/utils': ^1.4.3
       esbuild: ^0.14.8
       eslint: ^8.5.0
       moment: ^2.29.1
+      preact: ^10.6.4
       typescript: ^4.5.4
     dependencies:
       '@xiao-ai/utils': registry.npmmirror.com/@xiao-ai/utils/1.4.3
+      preact: registry.npmmirror.com/preact/10.6.4
     devDependencies:
       '@types/node': registry.npmmirror.com/@types/node/17.0.4
+      '@types/tampermonkey': registry.npmmirror.com/@types/tampermonkey/4.0.5
       '@typescript-eslint/eslint-plugin': registry.npmmirror.com/@typescript-eslint/eslint-plugin/5.8.0_836011a006f4f5d67178564baf2b6d34
       '@typescript-eslint/parser': registry.npmmirror.com/@typescript-eslint/parser/5.8.0_eslint@8.5.0+typescript@4.5.4
       esbuild: registry.npmmirror.com/esbuild/0.14.8
@@ -751,6 +755,12 @@ packages:
     version: 17.0.4
     dev: true
 
+  registry.npmmirror.com/@types/tampermonkey/4.0.5:
+    resolution: {integrity: sha1-A6DCNmp8H+Xhx3yIrfVo9As8GOU=, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/tampermonkey/download/@types/tampermonkey-4.0.5.tgz}
+    name: '@types/tampermonkey'
+    version: 4.0.5
+    dev: true
+
   registry.npmmirror.com/@typescript-eslint/eslint-plugin/5.8.0_836011a006f4f5d67178564baf2b6d34:
     resolution: {integrity: sha512-spu1UW7QuBn0nJ6+psnfCc3iVoQAifjKORgBngKOmC8U/1tbe2YJMzYQqDGYB4JCss7L8+RM2kKLb1B1Aw9BNA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@typescript-eslint/eslint-plugin/download/@typescript-eslint/eslint-plugin-5.8.0.tgz}
     id: registry.npmmirror.com/@typescript-eslint/eslint-plugin/5.8.0
@@ -1336,6 +1346,12 @@ packages:
     dependencies:
       callsites: registry.nlark.com/callsites/3.1.0
     dev: true
+
+  registry.npmmirror.com/preact/10.6.4:
+    resolution: {integrity: sha512-WyosM7pxGcndU8hY0OQlLd54tOU+qmG45QXj2dAYrL11HoyU/EzOSTlpJsirbBr1QW7lICxSsVJJmcmUglovHQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/preact/download/preact-10.6.4.tgz}
+    name: preact
+    version: 10.6.4
+    dev: false
 
   registry.npmmirror.com/rimraf/3.0.2:
     resolution: {integrity: sha1-8aVAK6YiCtUswSgrrBrjqkn9Bho=, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/rimraf/download/rimraf-3.0.2.tgz}

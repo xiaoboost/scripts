@@ -17,10 +17,12 @@
     "node": ">= 12"
   },
   "dependencies": {
-    "@xiao-ai/utils": "^1.4.3"
+    "@xiao-ai/utils": "^1.4.3",
+    "preact": "^10.6.4"
   },
   "devDependencies": {
     "@types/node": "^17.0.4",
+    "@types/tampermonkey": "^4.0.5",
     "@typescript-eslint/eslint-plugin": "^5.8.0",
     "@typescript-eslint/parser": "^5.8.0",
     "esbuild": "^0.14.8",

@@ -1,10 +1,8 @@
 import { log } from './log';
 import { isObject, isString } from '@xiao-ai/utils';
 
-const styleId = 'zhihu-utils';
-
-type JssObject = Partial<CSSStyleDeclaration> & {
-  [key: string]: JssObject | string;
+type JssObject = Partial<CSSStyleDeclaration> | {
+  [key: string]: JssObject;
 };
 
 type JssInput = Record<string, JssObject>;
@@ -12,6 +10,18 @@ type JssInput = Record<string, JssObject>;
 const codes: string[] = [];
 
 export function addStyle(object: JssInput) {
+  function styleObjectToString(input: JssInput, selector: string, keys: string[]) {
+    let content = `${selector} {\n`;
+
+    for (const key of keys) {
+      content += `  ${key}: ${input[key]};\n`;
+    }
+
+    content += '}\n\n';
+
+    return content;
+  }
+
   function jssToString(input: JssInput, prefix = '') {
     let content = '';
 
@@ -19,17 +29,12 @@ export function addStyle(object: JssInput) {
     const subObjectKeys = props.filter((name) => isObject(input[name]));
     const declarationKeys = props.filter((name) => isString(input[name]));
 
-    for (const key of declarationKeys) {
-      content += `${key}: ${input[key]};\n`;
+    if (declarationKeys.length > 0) {
+      content += styleObjectToString(input, prefix, declarationKeys);
     }
 
     for (const key of subObjectKeys) {
-      const selector = `${prefix} ${key}`.trim();
-      content += (
-        `${selector} {\n` +
-        `${jssToString(input[key] as any, selector)}\n` +
-        '}\n'
-      );
+      content += jssToString(input[key] as any, `${prefix} ${key}`.trim());
     }
 
     return content;
@@ -38,25 +43,10 @@ export function addStyle(object: JssInput) {
   codes.push(jssToString(object, ''));
 }
 
-window.onload = () => {
-  let styleEl = document.getElementById(styleId) as HTMLStyleElement | null;
-
-  if (styleEl) {
-    if (process.env.NODE_ENV === 'development') {
-      log('样式元素已存在，忽略此次加载');
-    }
-    return;
-  }
-
-  const headEl = document.getElementsByTagName('head')[0];
-
-  styleEl = document.createElement('style');
-  styleEl.innerHTML = codes.join('\n');
-  styleEl.setAttribute('id', styleId);
-
-  headEl.appendChild(styleEl);
+unsafeWindow.addEventListener('load', () => {
+  GM_addStyle(codes.join('\n'));
 
   if (process.env.NODE_ENV === 'development') {
     log('样式元素加载成功');
   }
-};
+});
