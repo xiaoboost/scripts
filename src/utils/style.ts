@@ -1,5 +1,5 @@
 import { log } from './log';
-import { isObject, isString } from '@xiao-ai/utils';
+import { isObject, isString, hyphenate } from '@xiao-ai/utils';
 
 type JssObject = Partial<CSSStyleDeclaration> | {
   [key: string]: JssObject;
@@ -14,7 +14,7 @@ export function addStyle(object: JssInput) {
     let content = `${selector} {\n`;
 
     for (const key of keys) {
-      content += `  ${key}: ${input[key]};\n`;
+      content += `  ${hyphenate(key)}: ${input[key]};\n`;
     }
 
     content += '}\n\n';

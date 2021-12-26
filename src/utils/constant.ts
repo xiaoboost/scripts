@@ -1,15 +1,17 @@
-/** 选择器枚举 */
-export const SelectorName = {
+/** 知乎页面内选择器 */
+export const ZhihuSelectorName = {
   /** 主页文章列表容器 */
-  Container: '.Topstory-container',
+  MainContainer: 'Topstory-container',
   /** 主页侧边栏 */
-  MainSideBar: '.GlobalSideBar',
+  MainSideBar: 'GlobalSideBar',
   /* 主页问题列表 */
-  QuestionList: '.Topstory-mainColumn',
+  MainQuestionList: 'Topstory-mainColumn',
+  /** 问题列表主容器 */
+  QuestionContainer: 'Question-main',
   /* 问题页面侧边栏 */
-  QuestionPageSideBar: '.Question-sideColumn--sticky',
+  QuestionPageSideBar: 'Question-sideColumn--sticky',
   /* 问题页面回答列表 */
-  AnswerList: '.Question-mainColumn',
+  QuestionAnswerList: 'Question-mainColumn',
   /* 回答文本 */
-  Answer: '.RichContent',
+  QuestionAnswer: 'RichContent',
 };
