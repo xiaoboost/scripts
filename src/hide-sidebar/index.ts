@@ -1,3 +1,7 @@
-import { log } from 'src/utils/log';
+import './style';
 
-log('hide-sidebar');
+import { active as activeStore } from './store';
+import { active as activeCommmand } from './command';
+
+activeStore();
+activeCommmand();

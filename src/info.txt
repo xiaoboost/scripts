@@ -1,18 +1,22 @@
 // ==UserScript==
 // @name                Zhihu Utils
-// @name:zh-CN          知乎工具包
+// @name:zh-CN          知乎辅助工具
 // @description         hide all images in the answer, hide sidebar
 // @description:zh-CN   隐藏回答中的所有图片，隐藏侧边栏
 //
 // @author              xiao
-// @namespace           http://www.dreamingcat.me
-// @supportURL          https://github.com/xiaoboost/zhihu-utils
 // @license             MIT
+// @supportURL          https://github.com/xiaoboost/zhihu-utils
 // @icon                https://pic1.zhimg.com/2e33f063f1bd9221df967219167b5de0_m.jpg
 //
-// @grant               none
+// @grant               GM_addStyle
+// @grant               GM_setValue
+// @grant               GM_getValue
+// @grant               GM_registerMenuCommand
+// @grant               GM_unregisterMenuCommand
+// @grant               unsafeWindow
 // @run-at              document-start
-// @include             *.zhihu.com/*
+// @include             https://www.zhihu.com/*
 //
 // @date                2021/12/24
 // @modified            ${BUILD}
