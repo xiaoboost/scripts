@@ -17,8 +17,7 @@
     "node": ">= 12"
   },
   "dependencies": {
-    "@xiao-ai/utils": "^1.4.3",
-    "preact": "^10.6.4"
+    "@xiao-ai/utils": "^1.4.3"
   },
   "devDependencies": {
     "@types/node": "^17.0.4",
