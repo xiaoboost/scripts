@@ -1,6 +1,6 @@
 import { log } from 'src/utils/log';
 import { Watcher } from '@xiao-ai/utils';
-import { SelectorName, StoreKey } from './constant';
+import { ClassName, StoreKey } from './constant';
 import { addClassName, removeClassName } from '@xiao-ai/utils/web';
 
 /** 当前侧边栏状态 */
@@ -15,8 +15,8 @@ function setStatus(val: boolean) {
   GM_setValue(StoreKey, val);
 
   val
-    ? addClassName(document.body, SelectorName.WidthFullMain)
-    : removeClassName(document.body, SelectorName.WidthFullMain);
+    ? addClassName(document.body, ClassName.WidthFullMain)
+    : removeClassName(document.body, ClassName.WidthFullMain);
 }
 
 /** 初始化 */

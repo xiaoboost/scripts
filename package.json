@@ -1,12 +1,14 @@
 {
   "name": "zhihu-utils",
   "displayName": "知乎辅助工具",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "针对知乎的脚本集合",
   "author": "xiaoboost",
   "license": "GPLv3.0",
   "scripts": {
-    "build": "node ./build/build.mjs",
+    "build:type": "tsc -p ./tsconfig.json --noEmit",
+    "build:code": "node ./build/build.mjs",
+    "build": "pnpm run build:type && pnpm run build:code",
     "watch": "node ./build/watch.mjs"
   },
   "repository": {
@@ -21,12 +23,12 @@
     "@xiao-ai/utils": "^1.4.3"
   },
   "devDependencies": {
-    "@types/node": "^17.0.4",
+    "@types/node": "^17.0.6",
     "@types/tampermonkey": "^4.0.5",
-    "@typescript-eslint/eslint-plugin": "^5.8.0",
-    "@typescript-eslint/parser": "^5.8.0",
-    "esbuild": "^0.14.8",
-    "eslint": "^8.5.0",
+    "@typescript-eslint/eslint-plugin": "^5.8.1",
+    "@typescript-eslint/parser": "^5.8.1",
+    "esbuild": "^0.14.10",
+    "eslint": "^8.6.0",
     "moment": "^2.29.1",
     "typescript": "^4.5.4"
   }

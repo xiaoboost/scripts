@@ -16,6 +16,7 @@
 // @grant               unsafeWindow
 // @run-at              document-start
 // @include             https://www.zhihu.com/*
+// @include             https://zhuanlan.zhihu.com/*
 //
 // @date                2021/12/24
 // @modified            ${BUILD}

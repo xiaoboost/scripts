@@ -1,5 +1,5 @@
 /** 工具定义选择器 */
-export const SelectorName = {
+export const ClassName = {
   SideBarBtn: 'SideBar-Button',
   /** 隐藏侧边栏 */
   SideBarBtnHide: 'SideBar-Button--hide',

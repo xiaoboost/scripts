@@ -21,4 +21,7 @@ serve(
       'process.env.NODE_ENV': '"development"',
     },
   },
-);
+)
+  .then(() => {
+    console.log(` 代码部署在网址: http://${host}:${port}/index.js`)
+  });

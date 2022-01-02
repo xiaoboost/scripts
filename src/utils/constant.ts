@@ -1,11 +1,13 @@
 /** 知乎页面内选择器 */
-export const ZhihuSelectorName = {
+export const ZhihuClassName = {
   /** 主页文章列表容器 */
   MainContainer: 'Topstory-container',
   /** 主页侧边栏 */
   MainSideBar: 'GlobalSideBar',
   /* 主页问题列表 */
   MainQuestionList: 'Topstory-mainColumn',
+  /** 主页问题项 */
+  MainQuestionItem: 'TopstoryItem',
   /** 问题列表主容器 */
   QuestionContainer: 'Question-main',
   /* 问题页面侧边栏 */
@@ -16,6 +18,20 @@ export const ZhihuSelectorName = {
   SearchItemList: 'SearchMain',
   /** 搜索页面侧边栏 */
   SearchSideBar: 'SearchSideBar',
-  /* 回答文本 */
-  Answer: 'RichContent',
-};
+  /** 回答容器 */
+  AnswerContainer: 'RichContent',
+  /**
+   * 回答文本容器
+   *  - 它的子元素就是问答文本节点列表
+   */
+  AnswerContentContainer: 'RichText',
+  /**
+   * 回答被折叠
+   *  - 该类与`AnswerContainer`同级
+   */
+  AnswerCollapsed: 'is-collapsed',
+  /** 专栏文章容器 */
+  ColumnContainer: 'Post-Main',
+  /** 专栏文章侧边按钮 */
+  ColumnAction: 'Post-SideActions',
+} as const;
