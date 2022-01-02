@@ -7,14 +7,22 @@ addStyle({
     [`.${ZhihuSelectorName.MainSideBar}`]: {
       display: 'none',
     },
-    [`.${ZhihuSelectorName.MainQuestionList}`]: {
-      margin: '0',
-      width: '100%',
-    },
     [`.${ZhihuSelectorName.QuestionPageSideBar}`]: {
       display: 'none',
     },
+    [`.${ZhihuSelectorName.SearchSideBar}`]: {
+      display: 'none',
+    },
+    [`.${ZhihuSelectorName.MainQuestionList}`]: {
+      marginRight: '0',
+      width: '100%',
+    },
     [`.${ZhihuSelectorName.QuestionAnswerList}`]: {
+      marginRight: '0',
+      width: '100%',
+    },
+    [`.${ZhihuSelectorName.SearchItemList}`]: {
+      marginRight: '0',
       width: '100%',
     },
     [`.${ZhihuSelectorName.QuestionAnswer} figure img`]: {
