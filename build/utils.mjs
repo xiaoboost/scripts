@@ -30,6 +30,7 @@ export const baseConfig = {
   bundle: true,
   platform: 'browser',
   format: 'iife',
+  minify: false,
   logLevel: 'info',
   legalComments: 'none',
   outfile: resolve('dist/index.js'),
