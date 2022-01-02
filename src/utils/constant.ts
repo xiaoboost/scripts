@@ -12,10 +12,10 @@ export const ZhihuSelectorName = {
   QuestionPageSideBar: 'Question-sideColumn--sticky',
   /* 问题页面回答列表 */
   QuestionAnswerList: 'Question-mainColumn',
-  /* 回答文本 */
-  QuestionAnswer: 'RichContent',
   /** 搜索页面列表 */
   SearchItemList: 'SearchMain',
   /** 搜索页面侧边栏 */
   SearchSideBar: 'SearchSideBar',
+  /* 回答文本 */
+  Answer: 'RichContent',
 };

@@ -31,6 +31,7 @@ export const baseConfig = {
   platform: 'browser',
   format: 'iife',
   minify: false,
+  treeShaking: true,
   logLevel: 'info',
   legalComments: 'none',
   outfile: resolve('dist/index.js'),
