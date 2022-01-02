@@ -31,6 +31,7 @@ export const baseConfig = {
   platform: 'browser',
   format: 'iife',
   minify: false,
+  treeShaking: true,
   logLevel: 'info',
   legalComments: 'none',
   outfile: resolve('dist/index.js'),
@@ -38,7 +39,7 @@ export const baseConfig = {
   tsconfig: resolve('tsconfig.json'),
   entryPoints: [resolve('src/index.ts')],
   define: {
-    'provess.env.BUILD': `"${buildTag}"`,
-    'provess.env.VERSION': `"${packageData.version}"`,
+    'process.env.BUILD': `"${buildTag}"`,
+    'process.env.VERSION': `"${packageData.version}"`,
   },
 };

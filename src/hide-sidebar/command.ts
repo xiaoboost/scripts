@@ -1,18 +1,13 @@
-import { Status, CommandName } from './constant';
-import { status } from './store';
-import { isNumber } from '@xiao-ai/utils';
-
-let commandId: number | undefined = undefined;
+import { isHide } from './store';
+import { registerTiggerCommand } from 'src/utils/command';
 
 export function active() {
-  // 解除之前的命令绑定
-  if (isNumber(commandId)) {
-    GM_unregisterMenuCommand(commandId);
-  }
-
-  // 绑定新的命令
-  commandId = GM_registerMenuCommand(CommandName[status.data], () => {
-    status.setData(status.data === Status.Default ? Status.Hide : Status.Default);
-    active();
-  });
+  registerTiggerCommand(
+    ['隐藏侧边栏', '恢复侧边栏'],
+    Number(isHide.data),
+    (tigger) => {
+      isHide.setData(!isHide.data);
+      tigger();
+    },
+  );
 }
