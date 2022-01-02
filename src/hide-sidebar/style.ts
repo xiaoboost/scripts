@@ -21,6 +21,9 @@ addStyle({
       width: '70%',
     },
   },
+  [`.${ZhihuSelectorName.MainContainer}, .${ZhihuSelectorName.QuestionContainer}`]: {
+    position: 'relative',
+  },
   [`.${SelectorName.SideBarBtn}`]: {
     cursor: 'pointer',
     display: 'flex',

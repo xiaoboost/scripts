@@ -11,6 +11,14 @@ export const SelectorName = {
   WidthFullMain: 'Zhihu-Width-Full',
 };
 
+/** 状态枚举 */
+export enum Status {
+  /** 默认状态 */
+  Default,
+  /** 隐藏侧边栏 */
+  Hide,
+}
+
 /** 状态储存 */
 export const StoreKey = 'hide-sidebar';
 
@@ -24,3 +32,8 @@ export const containers = [
   `.${ZhihuSelectorName.MainContainer}`,
   `.${ZhihuSelectorName.QuestionContainer}`,
 ];
+
+export const menuName = {
+  Hide: '',
+  Default: '',
+};

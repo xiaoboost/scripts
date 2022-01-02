@@ -2,7 +2,7 @@ import { h } from 'preact';
 import { useState, useEffect } from 'preact/hooks';
 
 import { log } from 'src/utils/log';
-import { SelectorName, StoreKey, defaultSvgPath, hideSvgPath, containers } from './constant';
+import { SelectorName, StoreKey, defaultSvgPath, hideSvgPath } from './constant';
 import { stringifyClass } from '@xiao-ai/utils';
 import { addClassName, removeClassName } from '@xiao-ai/utils/web';
 
@@ -21,14 +21,9 @@ export function Button() {
 
     GM_setValue(StoreKey, isHide);
 
-    const container = document.body.querySelector(containers.join(',')) as HTMLElement;
-
-    if (container) {
-      isHide
-        ? addClassName(container, SelectorName.WidthFullMain)
-        : removeClassName(container, SelectorName.WidthFullMain);
-    }
-
+    isHide
+      ? addClassName(document.body, SelectorName.WidthFullMain)
+      : removeClassName(document.body, SelectorName.WidthFullMain);
   }, [isHide]);
 
   return (

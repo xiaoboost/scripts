@@ -43,7 +43,7 @@ export function addStyle(object: JssInput) {
   codes.push(jssToString(object, ''));
 }
 
-unsafeWindow.addEventListener('load', () => {
+setTimeout(() => {
   GM_addStyle(codes.join('\n'));
 
   if (process.env.NODE_ENV === 'development') {
