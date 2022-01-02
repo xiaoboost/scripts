@@ -4,7 +4,7 @@ import { SelectorName, StoreKey, Status } from './constant';
 import { addClassName, removeClassName } from '@xiao-ai/utils/web';
 
 /** 当前侧边栏状态 */
-export const status = new Watcher(GM_getValue(StoreKey, Status.Default));
+export const status = new Watcher(GM_getValue(StoreKey, Status.Hide));
 
 function setStatus(val: Status) {
   if (process.env.NODE_ENV === 'development') {

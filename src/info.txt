@@ -1,8 +1,6 @@
 // ==UserScript==
-// @name                Zhihu Utils
-// @name:zh-CN          知乎辅助脚本
-// @description         auxiliary tool for Zhihu
-// @description:zh-CN   提供给知乎的辅助增强工具
+// @name                ${NAME}
+// @description         知乎辅助增强脚本，提供隐藏侧边栏等功能
 //
 // @author              xiao
 // @license             MIT

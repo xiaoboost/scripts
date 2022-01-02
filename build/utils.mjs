@@ -18,13 +18,13 @@ export function normalize(input) {
 }
 
 /** 当前版本号 */
-const version = require('../package.json').version;
+export const packageData = require('../package.json');
 /** 当前编译标签 */
-const buildTag = moment().format('yyyy/MM/DD');
+export const buildTag = moment().format('yyyy/MM/DD');
 /** 当前脚本信息 */
-const scriptInfo = fs.readFileSync(resolve('src/info.txt'), 'utf-8')
+export const jsBanner = fs.readFileSync(resolve('src/info.txt'), 'utf-8')
   .replace('${BUILD}', buildTag)
-  .replace('${VERSION}', version);
+  .replace('${VERSION}', packageData.version);
 
 export const baseConfig = {
   bundle: true,
@@ -37,11 +37,8 @@ export const baseConfig = {
   mainFields: ['module', 'main'],
   tsconfig: resolve('tsconfig.json'),
   entryPoints: [resolve('src/index.ts')],
-  banner: {
-    js: scriptInfo,
-  },
   define: {
     'provess.env.BUILD': `"${buildTag}"`,
-    'provess.env.VERSION': `"${version}"`,
+    'provess.env.VERSION': `"${packageData.version}"`,
   },
 };

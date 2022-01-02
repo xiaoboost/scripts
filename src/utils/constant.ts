@@ -14,4 +14,8 @@ export const ZhihuSelectorName = {
   QuestionAnswerList: 'Question-mainColumn',
   /* 回答文本 */
   QuestionAnswer: 'RichContent',
+  /** 搜索页面列表 */
+  SearchItemList: 'SearchMain',
+  /** 搜索页面侧边栏 */
+  SearchSideBar: 'SearchSideBar',
 };
