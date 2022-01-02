@@ -8,25 +8,21 @@
 
 ## 路线图
 
-- [ ] 隐藏侧边栏
+- [x] 隐藏侧边栏
   - [x] 主页
   - [x] 问题页面
   - [x] 搜索页面
+- [ ] 隐藏图片
+  - [ ] 回答
+  - [ ] 专栏
 - [ ] 屏蔽盐选内容
 - [ ] 专栏文章宽屏模式
-- [ ] 隐藏回答图片
 
 ## 调试
 
-1. 运行命令
-
-```bash
-pnpm run watch
-```
-
-2. 检查网址`http://localhost:5555/index.js`是否展示代码
-3. 打开 Tampermonkey 的`实用工具`页面
-4. 在最下方的`从 URL 安装`选项中填入网址`http://localhost:5555/index.js`，然后点击右侧安装即可
+1. 运行命令 `pnpm run watch`
+2. 打开 Tampermonkey 的`实用工具`页面
+3. 在最下方的`从 URL 安装`选项中填入网址`http://localhost:5555/index.js`，然后点击右侧安装即可
 
 注：
 

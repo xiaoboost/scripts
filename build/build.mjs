@@ -6,4 +6,8 @@ build({
   banner: {
     js: jsBanner.replace('${NAME}', packageData.displayName),
   },
+  define: {
+    ...baseConfig.define,
+    'process.env.NODE_ENV': '"production"',
+  },
 });
