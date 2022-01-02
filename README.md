@@ -1,6 +1,20 @@
 # zhihu-utils
 
-针对知乎的脚本工具
+自己用的知乎辅助工具
+
+## 安装
+
+[greasyfork](https://greasyfork.org/zh-CN/scripts/437940-zhihu-utils)
+
+## 路线图
+
+- [ ] 隐藏侧边栏
+  - [x] 主页
+  - [x] 问题页面
+  - [ ] 搜索页面
+- [ ] 屏蔽盐选内容
+- [ ] 专栏文章宽屏模式
+- [ ] 隐藏回答图片
 
 ## 调试
 

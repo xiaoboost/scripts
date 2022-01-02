@@ -12,7 +12,6 @@ serve(
   },
   {
     ...baseConfig,
-    minify: false,
     sourcemap: true,
   },
 );

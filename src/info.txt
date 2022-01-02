@@ -1,11 +1,12 @@
 // ==UserScript==
 // @name                Zhihu Utils
-// @name:zh-CN          知乎辅助工具
-// @description         hide all images in the answer, hide sidebar
-// @description:zh-CN   隐藏回答中的所有图片，隐藏侧边栏
+// @name:zh-CN          知乎辅助脚本
+// @description         auxiliary tool for Zhihu
+// @description:zh-CN   提供给知乎的辅助增强工具
 //
 // @author              xiao
 // @license             MIT
+// @namespace           https://github.com/xiaoboost
 // @supportURL          https://github.com/xiaoboost/zhihu-utils
 // @icon                https://pic1.zhimg.com/2e33f063f1bd9221df967219167b5de0_m.jpg
 //
