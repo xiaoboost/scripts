@@ -20,7 +20,7 @@
 
 ## 调试
 
-1. 运行命令 `pnpm run watch`
+1. 运行命令 `npm run watch`
 2. 打开 Tampermonkey 的`实用工具`页面
 3. 在最下方的`从 URL 安装`选项中填入网址`http://localhost:5555/index.js`，然后点击右侧安装即可
 

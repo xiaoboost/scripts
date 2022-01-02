@@ -32,6 +32,6 @@
       "@xiao-ai/utils/*": ["./node_modules/@xiao-ai/utils/dist/types/*"]
     }
   },
-  "include": ["src"],
+  "include": ["src", "types"],
   "exclude": ["node_modules", "dist"]
 }
