@@ -27,7 +27,7 @@ export function active() {
         width: '100%',
       },
       [`.${ZhihuClassName.AnswerContainer} figure img`]: {
-        width: '70%',
+        maxWidth: '70%',
       },
     },
     [`.${ZhihuClassName.MainContainer}`]: {
