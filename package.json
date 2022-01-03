@@ -1,14 +1,14 @@
 {
   "name": "zhihu-utils",
   "displayName": "知乎辅助工具",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "针对知乎的脚本集合",
   "author": "xiaoboost",
   "license": "GPLv3.0",
   "scripts": {
     "build:type": "tsc -p ./tsconfig.json --noEmit",
     "build:code": "node ./build/build.mjs",
-    "build": "pnpm run build:type && pnpm run build:code",
+    "build": "npm run build:type && npm run build:code",
     "watch": "node ./build/watch.mjs"
   },
   "repository": {

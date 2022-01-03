@@ -23,6 +23,25 @@ function setStatus(val: boolean) {
 export function active() {
   unsafeWindow.addEventListener('load', () => {
     setStatus(isHide.data);
+
+    // body 属性变更时重置类属性
+    const observer = new MutationObserver(() => {
+      setStatus(isHide.data);
+
+      if (process.env.NODE_ENV === 'development') {
+        log('body 元素 class 属性变更，重置属性')
+      }
+    });
+
+    observer.observe(document.body, {
+      attributeFilter: ['class'],
+      attributes: true,
+      attributeOldValue: false,
+      characterData: false,
+      characterDataOldValue: false,
+      childList: false,
+      subtree: false,
+    })
   });
 }
 
