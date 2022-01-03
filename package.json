@@ -1,7 +1,7 @@
 {
   "name": "zhihu-utils",
   "displayName": "知乎辅助工具",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "针对知乎的脚本集合",
   "author": "xiaoboost",
   "license": "GPLv3.0",
