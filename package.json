@@ -1,35 +1,29 @@
 {
-  "name": "zhihu-utils",
-  "displayName": "知乎辅助工具",
-  "version": "1.2.2",
-  "description": "针对知乎的脚本集合",
+  "name": "scripts",
+  "version": "1.0.0",
+  "description": "个人用的脚本仓库",
   "author": "xiaoboost",
   "license": "GPLv3.0",
   "scripts": {
-    "build:type": "tsc -p ./tsconfig.json --noEmit",
-    "build:code": "node ./build/build.mjs",
-    "build": "npm run build:type && npm run build:code",
-    "watch": "node ./build/watch.mjs"
+    "build:dep": "pnpm run build --filter @scripts/builder...",
+    "build": "pnpm run build --filter @scripts/zhihu --filter @scripts/e-hentai",
+    "lint": "pnpm run -r lint --parallel --filter .",
+    "lint:fix": "pnpm run -r lint:fix --parallel --filter ."
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/xiaoboost/zhihu-utils.git"
+    "url": "https://github.com/xiaoboost/scripts.git"
   },
   "engines": {
     "pnpm": ">= 6.0.0",
     "node": ">= 12"
   },
-  "dependencies": {
-    "@xiao-ai/utils": "^1.4.3"
-  },
   "devDependencies": {
-    "@types/node": "^17.0.6",
-    "@types/tampermonkey": "^4.0.5",
+    "@scripts/tsconfig": "workspace:*",
     "@typescript-eslint/eslint-plugin": "^5.8.1",
-    "@typescript-eslint/parser": "^5.8.1",
-    "esbuild": "^0.14.10",
+    "@typescript-eslint/parser": "^5.9.0",
     "eslint": "^8.6.0",
-    "moment": "^2.29.1",
+    "eslint-plugin-react": "^7.28.0",
     "typescript": "^4.5.4"
   }
 }
