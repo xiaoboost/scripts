@@ -1,5 +1,5 @@
 import { ZhihuClassName } from 'src/utils/constant';
-import { addStyle } from 'src/utils/style';
+import { addStyle } from '@scripts/utils';
 
 const width = 900;
 

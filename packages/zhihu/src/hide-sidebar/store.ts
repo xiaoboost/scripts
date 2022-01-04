@@ -1,4 +1,4 @@
-import { log } from 'src/utils/log';
+import { log } from '@scripts/utils';
 import { Watcher } from '@xiao-ai/utils';
 import { ClassName, StoreKey } from './constant';
 import { addClassName, removeClassName } from '@xiao-ai/utils/web';

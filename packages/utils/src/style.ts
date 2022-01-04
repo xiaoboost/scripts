@@ -46,7 +46,7 @@ export function addStyle(object: JssInput) {
 setTimeout(() => {
   GM_addStyle(codes.join('\n'));
 
-  if (process.env.NODE_ENV === 'development') {
+  if (GlobalEnv.node === 'development') {
     log('样式元素加载成功');
   }
 });

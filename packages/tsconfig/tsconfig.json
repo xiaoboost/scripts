@@ -7,9 +7,8 @@
     "declarationMap": true,
     "moduleResolution": "node",
     "target": "ESNext",
-    "module": "ESNext",
+    "module": "CommonJS",
     "jsx": "react",
-    "jsxFactory": "h",
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
@@ -27,11 +26,8 @@
     "suppressImplicitAnyIndexErrors": true,
     "allowJs": true,
     "lib": ["ESNext", "DOM"],
-    "baseUrl": ".",
     "paths": {
       "@xiao-ai/utils/*": ["./node_modules/@xiao-ai/utils/dist/types/*"]
     }
-  },
-  "include": ["src", "types"],
-  "exclude": ["node_modules", "dist"]
+  }
 }

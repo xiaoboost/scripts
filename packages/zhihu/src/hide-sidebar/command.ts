@@ -1,5 +1,5 @@
 import { isHide } from './store';
-import { registerTiggerCommand } from 'src/utils/command';
+import { registerTiggerCommand } from '@scripts/utils';
 
 export function active() {
   registerTiggerCommand(

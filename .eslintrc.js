@@ -1,16 +1,25 @@
 const path = require('path');
-const projectConfig = path.join(__dirname, 'tsconfig.json');
+const fs = require('fs');
+const workspace = process.cwd();
+const isRoot = fs.existsSync(path.join(workspace, 'pnpm-lock.yaml'));
+const rootWorkspace = isRoot ? workspace : path.join(workspace, '../../');
+const projectConfig = path.join(rootWorkspace, 'tsconfig.test.json');
+const relativeRoot = path.relative(rootWorkspace, workspace);
+
+const ignorePaths = [
+  'dev/*',
+  'dist/*',
+  'draft/*',
+  'coverage/*',
+  '.vscode/*',
+  '.eslintrc.js',
+  '**/*.js',
+].map((name) => path.join(relativeRoot, name).replace(/\\+/g, '/'));
 
 module.exports = {
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint'],
-  ignorePatterns: [
-    'dist/*',
-    'build/*',
-    '.vscode/*',
-    '.eslintrc.js',
-    '**/*.js',
-  ],
+  plugins: ['@typescript-eslint', 'react'],
+  ignorePatterns: ignorePaths,
   parserOptions: {
     project: projectConfig,
     ecmaFeatures: {
@@ -20,6 +29,7 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:react/recommended',
   ],
   settings: {
     react: {
@@ -44,6 +54,7 @@ module.exports = {
     'no-implicit-coercion': 'error',
     'no-multi-spaces': 'error',
 
+    '@typescript-eslint/ban-ts-comment': 'off',
     '@typescript-eslint/no-empty-interface': 'off',
     '@typescript-eslint/no-this-alias': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',

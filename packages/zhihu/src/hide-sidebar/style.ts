@@ -1,6 +1,6 @@
 import { ZhihuClassName } from 'src/utils/constant';
 import { ClassName } from './constant';
-import { addStyle } from 'src/utils/style';
+import { addStyle } from '@scripts/utils';
 
 export function active() {
   addStyle({

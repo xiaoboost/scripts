@@ -27,3 +27,6 @@ typings/
 
 # output
 dist
+
+# cache
+cache
