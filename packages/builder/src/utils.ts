@@ -51,9 +51,9 @@ export function getBaseConfig(opt: Options): BuildOptions {
       js: jsBanner,
     },
     define: {
-      'process.env.BUILD': `"${buildTag}"`,
-      'process.env.VERSION': `"${packageData.version}"`,
-      'process.env.NODE_ENV': `"${mode}"`,
+      'GlobalEnv.build': `"${buildTag}"`,
+      'GlobalEnv.version': `"${packageData.version}"`,
+      'GlobalEnv.node': `"${mode}"`,
     },
   };
 }
