@@ -1,4 +1,4 @@
-# zhihu-utils
+# @scripts/zhihu
 
 自己用的知乎辅助工具
 

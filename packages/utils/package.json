@@ -8,10 +8,8 @@
   "module": "./src/index.ts",
   "types": "./src/index.ts",
   "scripts": {
-    "build:type": "tsc -p ./tsconfig.json --noEmit",
-    "build:code": "node ./build/build.mjs",
-    "build": "npm run build:type && npm run build:code",
-    "watch": "node ./build/watch.mjs"
+    "lint": "eslint --quiet --no-error-on-unmatched-pattern --config ../../.eslintrc.js src/**/*.{ts,tsx,js,jsx}",
+    "lint:fix": "eslint --fix --quiet --no-error-on-unmatched-pattern --config ../../.eslintrc.js src/**/*.{ts,tsx,js,jsx}"
   },
   "dependencies": {
     "@xiao-ai/utils": "^1.4.3"

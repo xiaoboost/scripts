@@ -9,7 +9,9 @@
     "build:type": "tsc -p ./tsconfig.json --noEmit",
     "build:code": "builder build --outFile=../../dist/zhihu.js",
     "build": "npm run build:type && npm run build:code -- --production",
-    "watch": "npm run build:code -- --development"
+    "watch": "npm run build:code -- --development",
+    "lint": "eslint --quiet --no-error-on-unmatched-pattern --config ../../.eslintrc.js src/**/*.{ts,tsx,js,jsx}",
+    "lint:fix": "eslint --fix --quiet --no-error-on-unmatched-pattern --config ../../.eslintrc.js src/**/*.{ts,tsx,js,jsx}"
   },
   "dependencies": {
     "@scripts/utils": "workspace:*",
