@@ -1,0 +1,19 @@
+// ==UserScript==
+// @name                ${NAME}
+// @description         绅士辅助增强脚本，提供下载功能
+//
+// @author              xiao
+// @license             GPLv3.0
+// @namespace           https://github.com/xiaoboost
+// @supportURL          https://github.com/xiaoboost/scripts
+// @icon                https://ehwiki.org/images/c/cd/E-Hentai.png
+//
+// @grant               unsafeWindow
+// @run-at              document-start
+// @include             https://e-hentai.org/*
+// @include             https://exhentai.org/*
+//
+// @date                2021/12/24
+// @modified            ${BUILD}
+// @version             ${VERSION}
+// ==/UserScript==

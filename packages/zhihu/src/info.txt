@@ -5,7 +5,7 @@
 // @author              xiao
 // @license             GPLv3.0
 // @namespace           https://github.com/xiaoboost
-// @supportURL          https://github.com/xiaoboost/zhihu-utils
+// @supportURL          https://github.com/xiaoboost/scripts
 // @icon                https://pic1.zhimg.com/2e33f063f1bd9221df967219167b5de0_m.jpg
 //
 // @grant               GM_addStyle
@@ -18,7 +18,7 @@
 // @include             https://www.zhihu.com/*
 // @include             https://zhuanlan.zhihu.com/*
 //
-// @date                2021/12/24
+// @date                2021/01/05
 // @modified            ${BUILD}
 // @version             ${VERSION}
 // ==/UserScript==
