@@ -8,7 +8,7 @@ export const isHide = new Watcher(GM_getValue(StoreKey, true));
 
 /** 保存状态 */
 function setStatus(val: boolean) {
-  if (process.env.NODE_ENV === 'development') {
+  if (GlobalEnv.node === 'development') {
     log(`当前边栏状态为: ${val ? '隐藏' : '默认'}`)
   }
 
@@ -28,7 +28,7 @@ export function active() {
     const observer = new MutationObserver(() => {
       setStatus(isHide.data);
 
-      if (process.env.NODE_ENV === 'development') {
+      if (GlobalEnv.node === 'development') {
         log('body 元素 class 属性变更，重置属性')
       }
     });

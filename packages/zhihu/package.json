@@ -2,7 +2,7 @@
   "name": "@scripts/zhihu",
   "displayName": "知乎辅助工具",
   "version": "1.2.2",
-  "description": "针对知乎的脚本集合",
+  "description": "知乎辅助增强脚本，提供隐藏侧边栏等功能",
   "author": "xiaoboost",
   "license": "GPLv3.0",
   "scripts": {
