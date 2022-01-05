@@ -5,8 +5,7 @@
   "author": "xiaoboost",
   "license": "GPLv3.0",
   "scripts": {
-    "build:dep": "pnpm run build --filter @scripts/builder...",
-    "build": "pnpm run build --filter @scripts/zhihu --filter @scripts/e-hentai",
+    "build": "pnpm run build -r",
     "lint": "pnpm run -r lint --parallel --filter .",
     "lint:fix": "pnpm run -r lint:fix --parallel --filter ."
   },
@@ -20,7 +19,7 @@
   },
   "devDependencies": {
     "@scripts/tsconfig": "workspace:*",
-    "@typescript-eslint/eslint-plugin": "^5.8.1",
+    "@typescript-eslint/eslint-plugin": "^5.9.0",
     "@typescript-eslint/parser": "^5.9.0",
     "eslint": "^8.6.0",
     "eslint-plugin-react": "^7.28.0",

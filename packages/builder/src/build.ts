@@ -1,5 +1,5 @@
 import { build as esbuild, serve, formatMessages, BuildFailure } from 'esbuild';
-import { getBaseConfig, cacheDir } from './utils';
+import { getBaseConfig, cacheDir } from './base';
 import { Options } from './types';
 
 export function build(opt: Options) {

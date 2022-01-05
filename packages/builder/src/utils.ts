@@ -1,59 +1,63 @@
 import path from 'path';
-import fs from 'fs';
-import moment from 'moment';
 
-import { BuildOptions } from 'esbuild';
-import { Options } from './types';
-
+/** 进入命令根目录 */
 export function resolve(...paths: string[]) {
   return normalize(path.join(process.cwd(), ...paths));
 }
 
+/** 路径文本格式化 */
 export function normalize(input: string) {
   return input.replace(/[\\/]/g, '/');
 }
 
-/** 当前编译标签 */
-export const buildTag = moment().format('yyyy/MM/DD');
-/** 缓存目录 */
-export const cacheDir = path.join(__dirname, '../cache');
+/** 运行代码 */
+export function runScript<T = any>(
+  code: string,
+  requireOut?: NodeRequire,
+  params: Record<string, any> = {},
+): T {
+  interface FakeModule {
+    exports: {
+      default: any;
+    }
+  }
 
-export function getBaseConfig(opt: Options): BuildOptions {
-  const packageData = JSON.parse(fs.readFileSync(resolve('package.json'), 'utf-8'));
-  const jsBanner = fs.readFileSync(resolve(opt.infoFile), 'utf-8')
-    .replace('${BUILD}', buildTag)
-    .replace('${VERSION}', packageData.version)
-    .replace(
-      '${NAME}',
-      opt.production
-        ? packageData.displayName
-        : `${packageData.displayName}-调试`,
-    );
-  const mode = opt.production
-    ? 'production'
-    : opt.development
-      ? 'development'
-      : '';
+  const requireFunc = (id: string) => {
+    let result: any;
 
-  return {
-    bundle: true,
-    platform: 'browser',
-    format: 'iife',
-    minify: false,
-    treeShaking: true,
-    logLevel: 'info',
-    legalComments: 'none',
-    outfile: resolve(opt.outFile),
-    mainFields: ['source', 'module', 'main'],
-    tsconfig: resolve('tsconfig.json'),
-    entryPoints: [resolve(opt.entry)],
-    banner: {
-      js: jsBanner,
-    },
-    define: {
-      'GlobalEnv.build': `"${buildTag}"`,
-      'GlobalEnv.version': `"${packageData.version}"`,
-      'GlobalEnv.node': `"${mode}"`,
-    },
+    try {
+      if (requireOut) {
+        result = requireOut(id);
+      }
+    }
+    catch (e) {
+      // ..
+    }
+
+    if (!result) {
+      result = require(id);
+    }
+
+    return result;
   };
+
+  const fake: FakeModule = {
+    exports: {},
+  } as any;
+
+  const paramList = Object.keys(params);
+  const paramValues = paramList.map((key) => params[key]);
+
+  try {
+    (new Function(`
+      return function box(module, exports, require${paramList ? `, ${paramList.join(', ')}` : ''}) {
+        ${code}
+      }
+    `))()(fake, fake.exports, requireFunc, ...paramValues);
+  }
+  catch (e: any) {
+    throw new Error(e);
+  }
+
+  return (fake.exports.default ? fake.exports.default : fake.exports);
 }
