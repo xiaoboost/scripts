@@ -43,7 +43,7 @@ importers:
       tslib: registry.nlark.com/tslib/2.3.1
       typescript: registry.npmmirror.com/typescript/4.5.4
 
-  packages/e-hentai:
+  packages/components:
     specifiers:
       '@scripts/builder': workspace:*
       '@scripts/tsconfig': workspace:*
@@ -60,6 +60,27 @@ importers:
       '@scripts/builder': link:../builder
       '@scripts/tsconfig': link:../tsconfig
       '@types/scripts': link:../types
+      typescript: registry.npmmirror.com/typescript/4.5.4
+
+  packages/e-hentai:
+    specifiers:
+      '@scripts/builder': workspace:*
+      '@scripts/tsconfig': workspace:*
+      '@scripts/utils': workspace:*
+      '@types/scripts': workspace:*
+      '@xiao-ai/utils': ^1.4.3
+      preact: ^10.6.4
+      tslib: ^2.3.1
+      typescript: ^4.5.4
+    dependencies:
+      '@scripts/utils': link:../utils
+      '@xiao-ai/utils': registry.npmmirror.com/@xiao-ai/utils/1.4.3
+      preact: registry.npmmirror.com/preact/10.6.4
+    devDependencies:
+      '@scripts/builder': link:../builder
+      '@scripts/tsconfig': link:../tsconfig
+      '@types/scripts': link:../types
+      tslib: registry.npmmirror.com/tslib/2.3.1
       typescript: registry.npmmirror.com/typescript/4.5.4
 
   packages/tsconfig:
@@ -2071,6 +2092,12 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       has-flag: registry.nlark.com/has-flag/4.0.0
+    dev: true
+
+  registry.npmmirror.com/tslib/2.3.1:
+    resolution: {integrity: sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/tslib/download/tslib-2.3.1.tgz}
+    name: tslib
+    version: 2.3.1
     dev: true
 
   registry.npmmirror.com/tsutils/3.21.0_typescript@4.5.4:

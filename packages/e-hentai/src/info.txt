@@ -8,10 +8,11 @@
 // @supportURL          https://github.com/xiaoboost/scripts
 // @icon                https://ehwiki.org/images/c/cd/E-Hentai.png
 //
+// @grant               GM_addStyle
 // @grant               unsafeWindow
 // @run-at              document-start
-// @include             https://e-hentai.org/*
-// @include             https://exhentai.org/*
+// @include             https://e-hentai.org/g/*
+// @include             https://exhentai.org/g/*
 //
 // @date                2021/12/24
 // @modified            ${BUILD}
