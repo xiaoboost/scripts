@@ -21,12 +21,12 @@ export default createStyle({
     minHeight: '200px',
 
     '&$PanelEx': {
-      boxShadow: `0px 0px 10px ${HentaiStyle[HentaiKind.Ex].textColor}`,
+      boxShadow: `0px 0px 10px ${HentaiStyle[HentaiKind.Ex].shadowColor}`,
       backgroundColor: HentaiStyle[HentaiKind.Ex].backgroundColor,
       color: HentaiStyle[HentaiKind.Ex].textColor,
     },
     '&$PanelNormal': {
-      boxShadow: `0px 0px 10px ${HentaiStyle[HentaiKind.Normal].textColor}`,
+      boxShadow: `0px 0px 10px ${HentaiStyle[HentaiKind.Normal].shadowColor}`,
       backgroundColor: HentaiStyle[HentaiKind.Normal].backgroundColor,
       color: HentaiStyle[HentaiKind.Normal].textColor,
     },

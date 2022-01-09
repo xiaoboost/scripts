@@ -49,9 +49,8 @@ importers:
       tslib: registry.npmmirror.com/tslib/2.3.1
       typescript: registry.npmmirror.com/typescript/4.5.4
 
-  packages/e-hentai:
+  packages/components:
     specifiers:
-      '@scripts/builder': workspace:*
       '@scripts/tsconfig': workspace:*
       '@scripts/utils': workspace:*
       '@types/scripts': workspace:*
@@ -60,6 +59,28 @@ importers:
       tslib: ^2.3.1
       typescript: ^4.5.4
     dependencies:
+      '@scripts/utils': link:../utils
+      '@xiao-ai/utils': registry.npmmirror.com/@xiao-ai/utils/1.4.3
+      preact: registry.npmmirror.com/preact/10.6.4
+    devDependencies:
+      '@scripts/tsconfig': link:../tsconfig
+      '@types/scripts': link:../types
+      tslib: registry.npmmirror.com/tslib/2.3.1
+      typescript: registry.npmmirror.com/typescript/4.5.4
+
+  packages/e-hentai:
+    specifiers:
+      '@scripts/builder': workspace:*
+      '@scripts/components': workspace:*
+      '@scripts/tsconfig': workspace:*
+      '@scripts/utils': workspace:*
+      '@types/scripts': workspace:*
+      '@xiao-ai/utils': ^1.4.3
+      preact: ^10.6.4
+      tslib: ^2.3.1
+      typescript: ^4.5.4
+    dependencies:
+      '@scripts/components': link:../components
       '@scripts/utils': link:../utils
       '@xiao-ai/utils': registry.npmmirror.com/@xiao-ai/utils/1.4.3
       preact: registry.npmmirror.com/preact/10.6.4

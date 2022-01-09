@@ -1,13 +1,20 @@
 import style from './style.jss';
 
 import { h } from 'preact';
+import { addStyle } from '@scripts/utils';
+import { Tabs } from '@scripts/components';
+import { stringifyClass as cln } from '@xiao-ai/utils';
+
+import { hentaiKind, HentaiKind } from 'src/utils';
+
+addStyle(style.toString());
 
 export interface Props {
   visible: boolean;
   onClose(): void;
 }
 
-export function SettingPanel(props: Props) {
+export function DownloadPanel(props: Props) {
   if (!props.visible) {
     return null;
   }
@@ -32,7 +39,16 @@ export function SettingPanel(props: Props) {
 
   return (
     <div className={style.classes.PanelMask}>
-      <div className={style.classes.Panel}>
+      <Tabs
+        headerStyle={{}}
+        tabs={[]}
+      />
+      <div
+        className={cln(style.classes.Panel, {
+          [style.classes.PanelEx]: hentaiKind === HentaiKind.Ex,
+          [style.classes.PanelNormal]: hentaiKind === HentaiKind.Normal,
+        })}
+      >
         内容
       </div>
     </div>

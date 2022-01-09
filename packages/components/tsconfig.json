@@ -1,0 +1,9 @@
+{
+  "extends": "@scripts/tsconfig",
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"],
+  "compilerOptions": {
+    "jsxFactory": "h",
+    "outDir": "dist"
+  }
+}
