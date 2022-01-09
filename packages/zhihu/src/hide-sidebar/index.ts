@@ -1,9 +1,11 @@
-import { active as activeStyle } from './style';
+import style from './style.jss';
+
+import { addStyle } from '@scripts/utils';
 import { active as activeStore } from './store';
 import { active as activeCommmand } from './command';
 
 export function active() {
-  activeStyle();
   activeStore();
   activeCommmand();
+  addStyle(style.toString());
 }

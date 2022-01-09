@@ -18,26 +18,14 @@ export interface JssResult<Name extends string> {
   toString(): string;
 }
 
-/**
- * 生成样式
- * @param style
- * @param holdClassName
- * @returns Pick<StyleSheet<Name>, 'classes' | 'toString'>
- */
+/** 生成样式 */
 export function createStyle<Name extends string>(
   style: Partial<Styles<Name, any, undefined>>,
-  holdClassName = false,
 ): JssResult<Name> {
   return jss.createStyleSheet(style, {
     generateId(rule) {
-      debugger;
-
       if (rule.key.startsWith('.')) {
         return rule.key.substring(1);
-      }
-
-      if (holdClassName) {
-        return rule.key;
       }
 
       const name = hyphenate(rule.key);
