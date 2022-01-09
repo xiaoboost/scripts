@@ -78,8 +78,11 @@ export function JssLoader() {
             setTimeout: () => void 0,
           });
         }
-        catch (e) {
-          console.warn(e);
+        catch (e: any) {
+          errors.push({
+            pluginName: pluginName,
+            text: e.message,
+          });
         }
 
         let cssCode = "";

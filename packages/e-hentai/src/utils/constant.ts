@@ -34,7 +34,7 @@ export const HentaiStyle = {
 };
 
 /** 当前网站类别 */
-export const hentaiKind = location.hostname.startsWith('exhentai')
+export const hentaiKind = globalThis.location?.hostname.startsWith('exhentai')
   ? HentaiKind.Ex
   : HentaiKind.Normal;
 
