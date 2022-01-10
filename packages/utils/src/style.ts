@@ -4,10 +4,11 @@ import { log } from './log';
 import { hyphenate } from '@xiao-ai/utils';
 
 const codes: string[] = [];
-const NameHash: Record<string, number | undefined> = {};
 
 /** 外部注入虚拟 jss 变量 */
 declare const jss: typeof Jss;
+/** 外部注入虚拟类名表 */
+declare const NameHash: Record<string, number | undefined>;
 
 export function addStyle(code: string) {
   codes.push(code);

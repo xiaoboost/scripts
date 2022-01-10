@@ -7,12 +7,27 @@ export default createStyle({
     flexDirection: 'column',
     width: 300,
   },
-  article: {
+  body: {
     flexGrow: 1,
+    marginBottom: 10,
   },
   footer: {
     display: 'flex',
     justifyContent: 'flex-end',
     alignItems: 'center',
+  },
+  btn: {
+    marginLeft: 6,
+  },
+  settingBox: {
+    marginBottom: 14,
+  },
+  settingTitle: {
+    fontSize: 16,
+    fontWeight: 'normal',
+    margin: '0 0 10px 0',
+  },
+  settingBody: {
+    paddingLeft: 6,
   },
 });

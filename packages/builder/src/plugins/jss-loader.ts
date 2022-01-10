@@ -21,6 +21,7 @@ function isJssObject(obj: unknown): obj is StyleSheet {
 export function JssLoader() {
   const pluginName = "loader-jss";
   const recorder = FileRecorder();
+  const NameHash: Record<string, number | undefined> = {};
 
   function getFiles() {
     return recorder.getFiles();
@@ -75,6 +76,7 @@ export function JssLoader() {
         try {
           jssObject = runScript(jssCode ?? "", require, {
             jss,
+            NameHash,
             setTimeout: () => void 0,
           });
         }

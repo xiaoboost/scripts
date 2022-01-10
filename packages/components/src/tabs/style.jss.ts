@@ -14,7 +14,6 @@ export default createStyle({
     position: 'relative',
     display: 'flex',
     padding: '0 8px',
-    marginBottom: 16,
 
     '&::before': {
       position: 'absolute',
@@ -50,6 +49,6 @@ export default createStyle({
     },
   },
   tabBody: {
-    padding: '0 8px 8px 8px',
+    padding: 14,
   },
 });
