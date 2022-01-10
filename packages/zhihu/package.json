@@ -1,15 +1,14 @@
 {
   "name": "@scripts/zhihu",
   "displayName": "知乎辅助工具",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "知乎辅助增强脚本，提供隐藏侧边栏等功能",
   "author": "xiaoboost",
   "license": "GPLv3.0",
   "scripts": {
     "build:type": "tsc -p ./tsconfig.json --noEmit",
-    "build:code": "builder build --outFile=../../dist/zhihu.js",
-    "build": "npm run build:type && npm run build:code -- --production",
-    "watch": "npm run build:code -- --development",
+    "build": "npm run build:type && builder build --outFile=dist/zhihu.js --production",
+    "watch": "builder watch --outFile=dist/zhihu.js --development",
     "lint": "eslint --quiet --no-error-on-unmatched-pattern --config ../../.eslintrc.js src/**/*.{ts,tsx,js,jsx}",
     "lint:fix": "eslint --fix --quiet --no-error-on-unmatched-pattern --config ../../.eslintrc.js src/**/*.{ts,tsx,js,jsx}"
   },

@@ -14,6 +14,10 @@ export function active() {
       [`.${ZhihuClassName.SearchSideBar}`]: {
         display: 'none',
       },
+      [`.${ZhihuClassName.ShortAnswerListContainer}`]: {
+        marginRight: '0',
+        width: '100%',
+      },
       [`.${ZhihuClassName.MainQuestionList}`]: {
         marginRight: '0',
         width: '100%',

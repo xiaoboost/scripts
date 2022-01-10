@@ -12,8 +12,12 @@ export const ZhihuClassName = {
   QuestionContainer: 'Question-main',
   /* 问题页面侧边栏 */
   QuestionPageSideBar: 'Question-sideColumn--sticky',
+  /* 缩略回答列表容器 */
+  ShortAnswerListContainer: 'ListShortcut',
   /* 问题页面回答列表 */
   QuestionAnswerList: 'Question-mainColumn',
+  /** 回答功能底栏 */
+  AnswerBottomAction: 'RichContent-actions',
   /** 搜索页面列表 */
   SearchItemList: 'SearchMain',
   /** 搜索页面侧边栏 */
