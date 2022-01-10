@@ -1,6 +1,6 @@
-import { HentaiKind } from './constant';
+import { HentaiKind, hentaiKind } from './constant';
 
-/** 网站背景色 */
+/** 网站样式枚举 */
 export const HentaiStyle = {
   [HentaiKind.Normal]: {
     backgroundColor: '#E3E0D1',
@@ -17,3 +17,6 @@ export const HentaiStyle = {
     borderColor: '#000000',
   },
 };
+
+/** 当前网站样式 */
+export const hentaiStyle = HentaiStyle[hentaiKind];

@@ -6,8 +6,8 @@ export default createStyle({
     position: 'fixed',
     width: '100vw',
     height: '100vh',
-    left: '0',
-    top: '0',
+    left: 0,
+    top: 0,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -16,9 +16,7 @@ export default createStyle({
   PanelEx: {},
   PanelNormal: {},
   Panel: {
-    borderRadius: '10px',
-    width: '200px',
-    minHeight: '200px',
+    borderRadius: 10,
 
     '&$PanelEx': {
       boxShadow: `0px 0px 10px ${HentaiStyle[HentaiKind.Ex].shadowColor}`,
