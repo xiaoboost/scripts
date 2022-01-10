@@ -24,11 +24,7 @@ export function watch(opt: Options) {
     },
     {
       ...getBaseConfig(opt),
-      watch: {
-        onRebuild(err) {
-          // ..
-        },
-      },
+      outfile: undefined,
     },
   )
     .then(() => {
