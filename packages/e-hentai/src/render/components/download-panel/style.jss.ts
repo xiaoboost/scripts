@@ -17,6 +17,7 @@ export default createStyle({
   PanelNormal: {},
   Panel: {
     borderRadius: 10,
+    position: 'relative',
 
     '&$PanelEx': {
       boxShadow: `0px 0px 10px ${HentaiStyle[HentaiKind.Ex].shadowColor}`,
@@ -28,5 +29,11 @@ export default createStyle({
       backgroundColor: HentaiStyle[HentaiKind.Normal].backgroundColor,
       color: HentaiStyle[HentaiKind.Normal].textColor,
     },
+  },
+  CloseBtn: {
+    position: 'absolute',
+    right: 8,
+    top: 8,
+    fontSize: 14,
   },
 });

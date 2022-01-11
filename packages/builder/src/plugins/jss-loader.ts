@@ -2,10 +2,12 @@ import { StyleSheet } from "jss";
 import { FileRecorder } from "./file-recorder";
 import { isObject } from "@xiao-ai/utils";
 import { runScript } from '@xiao-ai/utils/node';
-import { PluginBuild, build, PartialMessage } from "esbuild";
+import { PluginBuild, build, BuildResult, PartialMessage } from "esbuild";
 
 import { promises as fs } from "fs";
 import { dirname, basename } from "path";
+
+import { SourceMapConsumer } from 'source-map';
 
 import jss from 'jss';
 import preset from 'jss-preset-default';
@@ -44,6 +46,7 @@ export function JssLoader() {
           outdir: "/",
           logLevel: "warning",
           charset: "utf8",
+          sourcemap: true,
           mainFields: options.mainFields,
           assetNames: options.assetNames,
           publicPath: options.publicPath,
@@ -56,21 +59,23 @@ export function JssLoader() {
             sourcefile: basename(args.path),
             loader: "ts",
           },
-        }).catch((e) => {
+        }).catch((e: BuildResult) => {
           return e;
         });
 
-        if (buildResult?.errors && buildResult.errors.length > 0) {
+        if (buildResult.errors.length > 0) {
           return {
-            errors: buildResult?.errors ?? [],
+            errors: buildResult.errors ?? [],
+            warnings: buildResult.warnings ?? [],
             loader: "js",
             contents: "",
           };
         }
 
         const errors: PartialMessage[] = [];
-        const jssCode = buildResult?.outputFiles[0].text;
-        const result = runScript(jssCode ?? '', {
+        const files = buildResult?.outputFiles ?? [];
+        const jssCode = files.find((file) => file.path.endsWith('.js'))?.text ?? '';
+        const result = runScript(jssCode, {
           dirname: __dirname,
           filename: 'jss-bundle.js',
           globalParams: {
@@ -83,12 +88,32 @@ export function JssLoader() {
         let cssCode = "";
 
         if (result.error) {
-          errors.push({
-            pluginName: pluginName,
-            text: result.error.message,
-            detail: result.error.stack,
-            // TODO: sourcemap 反解
+          const sourceMapCode = files.find((file) => file.path.endsWith('.map'))?.text ?? '';
+          const sourceMapData = JSON.parse(sourceMapCode);
+          const map = await new SourceMapConsumer(sourceMapData);
+          const originLocation = map.originalPositionFor({
+            line: result.error.location?.line ?? 1,
+            column: result.error.location?.column ?? 1,
           });
+
+          if (originLocation.line) {
+            errors.push({
+              pluginName: pluginName,
+              text: result.error.message,
+              location: {
+                file: originLocation.source ?? undefined,
+                line: originLocation.line ?? undefined,
+                column: originLocation.column ?? undefined,
+                lineText: result.error.location?.lineText,
+              },
+            });
+          }
+          else {
+            errors.push({
+              pluginName: pluginName,
+              text: result.error.message,
+            });
+          }
         }
         else if (isJssObject(result.output)) {
           cssCode = result.output.toString({

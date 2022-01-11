@@ -19,15 +19,24 @@ export default createStyle({
   btn: {
     marginLeft: 6,
   },
-  settingBox: {
+  formBox: {
     marginBottom: 14,
   },
-  settingTitle: {
+  formBoxTitle: {
     fontSize: 16,
     fontWeight: 'normal',
     margin: '0 0 10px 0',
   },
-  settingBody: {
+  formBoxBody: {
     paddingLeft: 6,
+  },
+  formRow: {
+    // ,,
+  },
+  formRowLabel: {
+
+  },
+  formRowBody: {
+    // ..
   },
 });
