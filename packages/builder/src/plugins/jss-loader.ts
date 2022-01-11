@@ -1,7 +1,7 @@
 import { StyleSheet } from "jss";
-import { runScript } from "../utils";
 import { FileRecorder } from "./file-recorder";
 import { isObject } from "@xiao-ai/utils";
+import { runScript } from '@xiao-ai/utils/node';
 import { PluginBuild, build, PartialMessage } from "esbuild";
 
 import { promises as fs } from "fs";
@@ -70,29 +70,30 @@ export function JssLoader() {
 
         const errors: PartialMessage[] = [];
         const jssCode = buildResult?.outputFiles[0].text;
-
-        let jssObject: any = {};
-
-        try {
-          jssObject = runScript(jssCode ?? "", require, {
+        const result = runScript(jssCode ?? '', {
+          dirname: __dirname,
+          filename: 'jss-bundle.js',
+          globalParams: {
             jss,
             NameHash,
             setTimeout: () => void 0,
-          });
-        }
-        catch (e: any) {
-          errors.push({
-            pluginName: pluginName,
-            text: e.message,
-          });
-        }
+          },
+        });
 
         let cssCode = "";
 
-        if (isJssObject(jssObject)) {
-          cssCode = jssObject.toString({
+        if (result.error) {
+          errors.push({
+            pluginName: pluginName,
+            text: result.error.message,
+            detail: result.error.stack,
+            // TODO: sourcemap 反解
+          });
+        }
+        else if (isJssObject(result.output)) {
+          cssCode = result.output.toString({
             indent: 0,
-            format: false,
+            format: true,
             allowEmpty: false,
           });
         }
@@ -109,7 +110,7 @@ export function JssLoader() {
           watchFiles: getFiles(),
           contents: `
             export default {
-              classes: ${JSON.stringify(jssObject.classes)},
+              classes: ${JSON.stringify(result.output.classes ?? {})},
               toString: function() { return \`${cssCode}\`; },
             };
           `,

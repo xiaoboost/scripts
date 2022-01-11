@@ -15,7 +15,7 @@
     "lint:fix": "eslint --fix --quiet --no-error-on-unmatched-pattern --config ../../.eslintrc.js src/**/*.{ts,tsx,js,jsx}"
   },
   "dependencies": {
-    "@xiao-ai/utils": "^1.4.3",
+    "@xiao-ai/utils": "^1.5.0",
     "esbuild": "^0.14.11",
     "jss": "^10.9.0",
     "jss-preset-default": "^10.9.0",
