@@ -1,13 +1,16 @@
 /** 绅士页面类名 */
-export const HentaiClassName = {
+export const ClassName = {
   RightAsideItem: 'g2',
   RightAsideSplitItem: 'gsp',
-};
+  PageList: 'ptt',
+  ImageBox: 'gdtm',
+} as const;
 
 /** 绅士页面编号名 */
-export const HentaiIdName = {
+export const IdName = {
   RightAside: 'gd5',
-};
+  ImageListBox: 'gdt',
+} as const;
 
 /** 网址类别 */
 export enum HentaiKind {

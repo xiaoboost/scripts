@@ -1,10 +1,10 @@
 import { MainButton } from './components/download-button';
-import { renderToDom, HentaiIdName } from 'src/utils';
+import { renderToDom, IdName } from 'src/utils';
 import { log } from '@scripts/utils';
 
 export function active() {
   unsafeWindow.addEventListener('load', () => {
-    const rightAside = document.querySelector(`#${HentaiIdName.RightAside}`);
+    const rightAside = document.querySelector(`#${IdName.RightAside}`);
 
     if (!rightAside) {
       if (GlobalEnv.node === 'development') {

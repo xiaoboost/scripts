@@ -9,11 +9,11 @@ export default createStyle({
   box: {
     display: 'flex',
     flexDirection: 'column',
-    width: 300,
+    width: '100%',
   },
   body: {
     flexGrow: 1,
-    marginBottom: 10,
+    marginBottom: 14,
   },
   footer: {
     display: 'flex',
@@ -25,6 +25,10 @@ export default createStyle({
   },
   formBox: {
     marginBottom: 14,
+
+    '&:last-child': {
+      marginBottom: 0,
+    }
   },
   formBoxTitle: {
     fontSize: 16,
@@ -55,7 +59,7 @@ export default createStyle({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 10,
+    marginBottom: 12,
 
     '& > *': {
       height: 24,
@@ -80,7 +84,7 @@ export default createStyle({
   },
   rangeAdd: {
     width: '100%',
-    height: 20,
+    height: 24,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

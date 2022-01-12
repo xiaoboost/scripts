@@ -7,6 +7,7 @@ import { RangeKind, RangeData, defaultRangeData } from '../constant';
 export interface RangeRowProps {
   data: RangeData;
   allowDelelte?: boolean;
+  disabled?: boolean;
   onDelete(): void;
   onChange(data: RangeData): void;
 }
@@ -23,6 +24,7 @@ export function RangeRow(props: RangeRowProps) {
     <div className={style.classes.rangeRow}>
       <Select
         value={props.data.kind}
+        disabled={props.disabled}
         defaultValue={RangeKind.Range}
         onChange={(kind: RangeKind) => onChange({ kind })}
         style={{ width: 70 }}
@@ -40,6 +42,7 @@ export function RangeRow(props: RangeRowProps) {
       {props.data.kind === RangeKind.Range && (
         <input
           className={style.classes.rangeInput}
+          disabled={props.disabled}
           value={props.data.start}
           onChange={({ currentTarget: el }) => {
             onChange({ start: Number.parseInt(el.value) });
@@ -56,6 +59,7 @@ export function RangeRow(props: RangeRowProps) {
       {props.data.kind === RangeKind.Range && (
         <input
           className={style.classes.rangeInput}
+          disabled={props.disabled}
           value={props.data.end}
           onChange={({ currentTarget: el }) => {
             onChange({ end: Number.parseInt(el.value) });
@@ -69,6 +73,7 @@ export function RangeRow(props: RangeRowProps) {
       {props.data.kind === RangeKind.Single && (
         <input
           className={style.classes.rangeInput}
+          disabled={props.disabled}
           value={props.data.start}
           onChange={({ currentTarget: el }) => {
             onChange({ end: Number.parseInt(el.value) });
@@ -92,6 +97,7 @@ export function RangeRow(props: RangeRowProps) {
 
 export interface RangeBoxProps {
   data: RangeData[];
+  disabled?: boolean;
   onChange(data: RangeData[]): void;
 }
 
@@ -118,6 +124,7 @@ export function RangeBox(props: RangeBoxProps) {
         <RangeRow
           key={i}
           data={item}
+          disabled={props.disabled}
           allowDelelte={arr.length > 1}
           onDelete={() => onDelete(i)}
           onChange={(data) => onChange(data, i)}

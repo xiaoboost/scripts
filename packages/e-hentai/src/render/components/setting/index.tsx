@@ -3,8 +3,7 @@ import style from './style.jss';
 import { h } from 'preact';
 import { useState } from 'preact/hooks';
 import { addStyle } from '@scripts/utils';
-import { Select, IconPlus } from '@scripts/components';
-import { stringifyClass as cln } from '@xiao-ai/utils';
+import { Select } from '@scripts/components';
 
 import { RangeBox } from './components/range';
 import { FormBox, FormRow } from './components/form';
@@ -46,6 +45,7 @@ export function Setting(props: Props) {
             <Select
               value={props.data.imageKind}
               defaultValue={ImageKind.Origin}
+              disabled={downloading}
               onChange={(imageKind: ImageKind) => onChange({ imageKind })}
               options={[
                 {
@@ -63,6 +63,7 @@ export function Setting(props: Props) {
         <FormBox title='下载范围'>
           <RangeBox
             data={props.data.range}
+            disabled={downloading}
             onChange={(range) => onChange({ range })}
           />
         </FormBox>

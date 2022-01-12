@@ -6,9 +6,15 @@ import { addStyle } from "@scripts/utils";
 import { Tabs, IconClose } from "@scripts/components";
 import { stringifyClass as cln } from "@xiao-ai/utils";
 
-import { hentaiKind, hentaiStyle, HentaiKind } from "src/utils";
+import {
+  hentaiKind,
+  HentaiKind,
+  getAllPagesUrl,
+  getImagesUrlInPage,
+} from "src/utils";
 
-import { Log } from "../log";
+import { TabEnum } from './constant';
+import { Log, ImageLogData, createImageLog } from "../log";
 import { Setting, defaultSetting, SettingData } from "../setting";
 
 addStyle(style.toString());
@@ -20,14 +26,42 @@ export interface Props {
 
 export function DownloadPanel(props: Props) {
   const [config, setConfig] = useState(defaultSetting);
-  const onSettingChange = (data: SettingData) => {
-    setConfig({
-      ...config,
-      ...data,
-    });
-  };
-  const download = () => {
-    // ..
+  const [tabValue, setTab] = useState(TabEnum.Setting);
+  const [logMsg, setLogMsg] = useState('');
+  const [images, setImages] = useState([] as ImageLogData[]);
+  const onSettingChange = (data: SettingData) => setConfig({
+    ...config,
+    ...data,
+  });
+  const download = async () => {
+    // 切换至日志页面
+    setTab(TabEnum.Log);
+
+    // 获取链接
+    const pagesUrl = getAllPagesUrl();
+    const imagesUrl = getImagesUrlInPage(pagesUrl);
+
+    setLogMsg('获取图片预览链接中...');
+
+    let images: ImageLogData[] = [];
+    let val: IteratorResult<string[], string[]> = {
+      value: [],
+      done: false,
+    };
+
+    while (!val.done) {
+      val = await imagesUrl.next();
+      images = createImageLog(val.value, images);
+      setImages(images);
+    }
+
+    setLogMsg('解析所有图片预览页面...');
+
+    debugger;
+
+    for (const img of images) {
+      // ..
+    }
   };
 
   if (!props.visible) {
@@ -43,11 +77,11 @@ export function DownloadPanel(props: Props) {
         })}
       >
         <Tabs
-          defaultValue={1}
+          value={tabValue}
           tabsData={[
             {
               name: "设置",
-              value: 1,
+              value: TabEnum.Setting,
               component: (
                 <Setting
                   data={config}
@@ -58,8 +92,13 @@ export function DownloadPanel(props: Props) {
             },
             {
               name: "日志",
-              value: 2,
-              component: <Log />,
+              value: TabEnum.Log,
+              component: (
+                <Log
+                  message={logMsg}
+                  images={images}
+                />
+              ),
             },
           ]}
         />

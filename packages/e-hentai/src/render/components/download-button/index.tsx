@@ -1,7 +1,7 @@
 import { h } from 'preact';
 import { useState } from 'preact/hooks';
 import { stringifyClass } from '@xiao-ai/utils';
-import { HentaiClassName as ClassName } from 'src/utils';
+import { ClassName } from 'src/utils';
 
 import { rightArrow } from './constant';
 import { DownloadPanel } from '../download-panel';

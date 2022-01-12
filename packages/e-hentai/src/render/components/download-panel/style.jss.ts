@@ -17,6 +17,7 @@ export default createStyle({
   PanelNormal: {},
   Panel: {
     borderRadius: 10,
+    width: 360,
     position: 'relative',
 
     '&$PanelEx': {

@@ -1,7 +1,7 @@
 import style from './style.jss';
 
 import { h } from 'preact';
-import { useState } from 'preact/hooks';
+import { useState, useEffect } from 'preact/hooks';
 import { addStyle } from '@scripts/utils';
 import { stringifyClass as cln } from '@xiao-ai/utils';
 
@@ -11,16 +11,21 @@ export interface TabsProps {
   className?: string;
   style?: h.JSX.CSSProperties;
   highlightColor?: string;
-  defaultValue?: number | string;
+  value?: number;
+  defaultValue?: number;
   tabsData: {
     name: string;
-    value: number | string;
+    value: number;
     component: h.JSX.Element;
   }[];
 }
 
 export function Tabs(props: TabsProps) {
-  const [state, setState] = useState(props.defaultValue);
+  const [state, setState] = useState(props.value ?? props.defaultValue);
+
+  useEffect(() => {
+    setState(props.value);
+  }, [props.value]);
 
   return (
     <div style={props.style} className={cln(style.classes.tabBox, props.className)}>
