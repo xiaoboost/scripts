@@ -1,14 +1,16 @@
 import style from './style.jss';
 
-import { h, ComponentChildren } from 'preact';
+import { h } from 'preact';
 import { useState } from 'preact/hooks';
 import { addStyle } from '@scripts/utils';
-import { Tabs } from '@scripts/components';
+import { Select, IconPlus } from '@scripts/components';
 import { stringifyClass as cln } from '@xiao-ai/utils';
 
-import { hentaiKind, hentaiStyle, HentaiKind } from 'src/utils';
+import { RangeBox } from './components/range';
+import { FormBox, FormRow } from './components/form';
+import { ImageKind, SettingData } from './constant';
 
-import { ImageKind, RangeKind, SettingData } from './constant';
+export * from './constant';
 
 addStyle(style.toString());
 
@@ -17,34 +19,6 @@ export interface Props {
   onChange?(data: SettingData): void;
   onDownload?(): void;
   onCancel?(): void;
-}
-
-interface FormBoxProps {
-  title: string;
-  children?: ComponentChildren;
-}
-
-function FormBox(props: FormBoxProps) {
-  return (
-    <section className={style.classes.formBox}>
-      <h2 className={style.classes.formBoxTitle}>{props.title}</h2>
-      <div className={style.classes.formBoxBody}>{props.children}</div>
-    </section>
-  );
-}
-
-interface FormRowProps {
-  label: string;
-  children?: ComponentChildren;
-}
-
-function FormRow(props: FormRowProps) {
-  return (
-    <section className={style.classes.formRow}>
-      <label className={style.classes.formRowLabel}>{props.label}</label>
-      <div className={style.classes.formRowBody}>{props.children}</div>
-    </section>
-  );
 }
 
 export function Setting(props: Props) {
@@ -57,22 +31,40 @@ export function Setting(props: Props) {
     setLoading(false);
     props.onCancel?.();
   };
+  const onChange = (data: Partial<SettingData>) => {
+    props.onChange?.({
+      ...props.data,
+      ...data,
+    });
+  };
 
   return (
     <div className={style.classes.box}>
       <article className={style.classes.body}>
         <FormBox title='下载选项'>
-          <FormRow label='选择文件类别'>
-            下拉选择框
-              - 原始文件（如果有）
-              - 压缩文件
+          <FormRow label='图像类别'>
+            <Select
+              value={props.data.imageKind}
+              defaultValue={ImageKind.Origin}
+              onChange={(imageKind: ImageKind) => onChange({ imageKind })}
+              options={[
+                {
+                  name: '原始文件（如果有）',
+                  value: ImageKind.Origin,
+                },
+                {
+                  name: '压缩文件',
+                  value: ImageKind.Shrink,
+                },
+              ]}
+            />
           </FormRow>
         </FormBox>
         <FormBox title='下载范围'>
-          {/* - 默认全部
-          - 单个
-          - 范围
-          - 增加和删除按钮 */}
+          <RangeBox
+            data={props.data.range}
+            onChange={(range) => onChange({ range })}
+          />
         </FormBox>
       </article>
       <footer className={style.classes.footer}>

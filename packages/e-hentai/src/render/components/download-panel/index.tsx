@@ -1,6 +1,7 @@
 import style from "./style.jss";
 
 import { h } from "preact";
+import { useState } from 'preact/hooks';
 import { addStyle } from "@scripts/utils";
 import { Tabs, IconClose } from "@scripts/components";
 import { stringifyClass as cln } from "@xiao-ai/utils";
@@ -8,7 +9,7 @@ import { stringifyClass as cln } from "@xiao-ai/utils";
 import { hentaiKind, hentaiStyle, HentaiKind } from "src/utils";
 
 import { Log } from "../log";
-import { Setting } from "../setting";
+import { Setting, defaultSetting, SettingData } from "../setting";
 
 addStyle(style.toString());
 
@@ -18,6 +19,17 @@ export interface Props {
 }
 
 export function DownloadPanel(props: Props) {
+  const [config, setConfig] = useState(defaultSetting);
+  const onSettingChange = (data: SettingData) => {
+    setConfig({
+      ...config,
+      ...data,
+    });
+  };
+  const download = () => {
+    // ..
+  };
+
   if (!props.visible) {
     return null;
   }
@@ -30,14 +42,19 @@ export function DownloadPanel(props: Props) {
           [style.classes.PanelNormal]: hentaiKind === HentaiKind.Normal,
         })}
       >
-        <IconClose className={style.classes.CloseBtn} onClick={props.onClose} />
         <Tabs
           defaultValue={1}
           tabsData={[
             {
               name: "设置",
               value: 1,
-              component: <Setting data={{} as any} />,
+              component: (
+                <Setting
+                  data={config}
+                  onChange={onSettingChange}
+                  onDownload={download}
+                />
+              )
             },
             {
               name: "日志",
@@ -46,6 +63,7 @@ export function DownloadPanel(props: Props) {
             },
           ]}
         />
+        <IconClose className={style.classes.CloseBtn} onClick={props.onClose} />
       </div>
     </div>
   );

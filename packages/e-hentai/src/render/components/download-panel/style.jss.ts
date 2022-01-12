@@ -33,7 +33,8 @@ export default createStyle({
   CloseBtn: {
     position: 'absolute',
     right: 8,
-    top: 8,
+    top: 12,
     fontSize: 14,
+    cursor: 'pointer',
   },
 });

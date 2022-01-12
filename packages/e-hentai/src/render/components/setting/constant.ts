@@ -20,21 +20,26 @@ export enum RangeKind {
   Single,
 }
 
-export type RangeData =
-  | {
-    kind: RangeKind.Range;
-    /** 范围开始的文件编号 */
-    start: number;
-    /** 范围结束的文件编号 */
-    end: number;
-  }
-  | {
-    kind: RangeKind.Single;
-    /** 范围开始的文件编号 */
-    start: number;
-  };
+export interface RangeData {
+  kind: RangeKind;
+  /** 范围开始的文件编号 */
+  start: number;
+  /** 范围结束的文件编号 */
+  end?: number;
+}
 
 export interface SettingData {
   imageKind: ImageKind;
   range: RangeData[];
 }
+
+export const defaultRangeData: RangeData = {
+  kind: RangeKind.Range,
+  start: 1,
+  end: 4000,
+};
+
+export const defaultSetting: SettingData = {
+  imageKind: ImageKind.Origin,
+  range: [{ ...defaultRangeData }],
+};
