@@ -10,6 +10,9 @@ export const ClassName = {
 export const IdName = {
   RightAside: 'gd5',
   ImageListBox: 'gdt',
+  ImagePreviewInfo: 'i2',
+  ImagePreview: 'img',
+  ImageOrigin: 'i7',
 } as const;
 
 /** 网址类别 */

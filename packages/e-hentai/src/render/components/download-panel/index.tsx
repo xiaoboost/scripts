@@ -4,18 +4,20 @@ import { h } from "preact";
 import { useState } from 'preact/hooks';
 import { addStyle } from "@scripts/utils";
 import { Tabs, IconClose } from "@scripts/components";
-import { stringifyClass as cln } from "@xiao-ai/utils";
+import { delay, stringifyClass as cln } from "@xiao-ai/utils";
 
 import {
   hentaiKind,
   HentaiKind,
   getAllPagesUrl,
-  getImagesUrlInPage,
+  downloadFile,
+  getImagePreviewUrls,
+  getImageUrlFromPreview,
 } from "src/utils";
 
 import { TabEnum } from './constant';
 import { Log, ImageLogData, createImageLog } from "../log";
-import { Setting, defaultSetting, SettingData } from "../setting";
+import { Setting, defaultSetting, SettingData, ImageKind } from "../setting";
 
 addStyle(style.toString());
 
@@ -39,7 +41,7 @@ export function DownloadPanel(props: Props) {
 
     // 获取链接
     const pagesUrl = getAllPagesUrl();
-    const imagesUrl = getImagesUrlInPage(pagesUrl);
+    const imagesUrl = getImagePreviewUrls(pagesUrl);
 
     setLogMsg('获取图片预览链接中...');
 
@@ -57,11 +59,31 @@ export function DownloadPanel(props: Props) {
 
     setLogMsg('解析所有图片预览页面...');
 
-    debugger;
-
     for (const img of images) {
-      // ..
+      setLogMsg(`正在解析第 ${img.index} 张图片...`);
+
+      const data = await getImageUrlFromPreview(img.pageUrl);
+
+      // 发生错误，记录之后跳过
+      if ('error' in data) {
+        img.error = data.error;
+        setImages(images.slice());
+        continue;
+      }
+
+      setLogMsg(`正在下载第 ${img.index} 张图片...`);
+
+      const downloadUrl = config.imageKind === ImageKind.Origin
+        ? data.originUrl ?? data.previewUrl
+        : data.previewUrl;
+
+      await downloadFile(downloadUrl, data.name);
+
+      break;
+      // await delay(500);
     }
+
+    setLogMsg('下载结束');
   };
 
   if (!props.visible) {

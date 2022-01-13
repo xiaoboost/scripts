@@ -1,26 +1,24 @@
+import { ErrorCode } from 'src/utils';
+
 /** 图片状态 */
 export enum ImageStatus {
   /** 等待 */
   Waitting,
-  /** 获取下载链接中 */
+  /** 解析预览链接 */
   ParsePreview,
-  /** 获取下载链接中错误 */
-  ParsePreviewError,
   /** 下载中 */
   Downloading,
-  /** 下载错误 */
-  DownloadError,
   /** 下载完成 */
   Downloaded,
+  /** 发生错误 */
+  Error,
 }
 
 /** 图片状态对应文本 */
 export const StatusText = {
   [ImageStatus.Waitting]: '等待...',
   [ImageStatus.ParsePreview]: '解析预览页面',
-  [ImageStatus.ParsePreviewError]: '解析出错',
   [ImageStatus.Downloading]: '下载中...',
-  [ImageStatus.DownloadError]: '下载出错',
   [ImageStatus.Downloaded]: '下载完成',
 };
 
@@ -36,4 +34,6 @@ export interface ImageLogData {
   pageUrl: string;
   /** 图片状态 */
   status: ImageStatus;
+  /** 错误码 */
+  error?: ErrorCode;
 }
