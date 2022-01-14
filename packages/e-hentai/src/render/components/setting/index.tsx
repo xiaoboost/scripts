@@ -51,13 +51,13 @@ export function Setting(props: Props) {
             />
           </FormRow>
         </FormBox>
-        <FormBox title='下载范围'>
+        {/* <FormBox title='下载范围'>
           <RangeBox
             data={props.data.range}
             disabled={props.disabled}
             onChange={(range) => onChange({ range })}
           />
-        </FormBox>
+        </FormBox> */}
       </article>
       <footer className={style.classes.footer}>
         <button

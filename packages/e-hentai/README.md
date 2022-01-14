@@ -2,17 +2,21 @@
 
 自己用的绅士辅助工具
 
-<!--
-
 ## 安装
 
-[greasyfork](https://greasyfork.org/scripts/437940)
+[greasyfork](https://greasyfork.org/scripts/438541)
+
+## 使用
+
+在每个画廊右侧的按钮区域，会多出`Download Gallery`的按钮，点击即可呼出下载面板。
+
+在初次下载中会出现`脚本试图访问跨源资源`的许可弹窗，选择`总是允许`即可。
 
 ## 路线图
 
-- [x] 在线下载
-
--->
+- [x] 基础下载
+- [ ] 范围选择
+- [ ] 错误重试
 
 ## 调试
 

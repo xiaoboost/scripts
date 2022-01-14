@@ -15,6 +15,7 @@ import {
   getGalleryTitle,
   ErrorCode,
   download,
+  format,
 } from "src/utils";
 
 import { TabEnum } from './constant';
@@ -40,6 +41,7 @@ export function DownloadPanel(props: Props) {
   });
   const onDownload = async () => {
     const updateImagesLog = () => setImages(images.slice());
+    const startTime = Date.now();
 
     let images: ImageLogData[] = [];
     let val: IteratorResult<string[], string[]> = {
@@ -107,7 +109,10 @@ export function DownloadPanel(props: Props) {
     }
 
     GM_notification({
-      text: `《${getGalleryTitle(unsafeWindow.document)}》下载完成`,
+      text: (
+        `《${getGalleryTitle(unsafeWindow.document)}》下载完成，` +
+        `共耗时 ${format(Date.now() - startTime)}`
+      ),
     });
 
     setLogMsg('下载结束');

@@ -9,7 +9,7 @@ export default createStyle({
     width: '100%',
   },
   spaceBox: {
-    height: 190,
+    height: 100,
     width: '100%',
     display: 'flex',
     justifyContent: 'center',

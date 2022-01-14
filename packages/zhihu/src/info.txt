@@ -5,7 +5,8 @@
 // @author              xiao
 // @license             GPLv3.0
 // @namespace           https://github.com/xiaoboost
-// @supportURL          https://github.com/xiaoboost/scripts
+// @supportURL          https://github.com/xiaoboost/scripts/issues
+// @homepageURL         https://github.com/xiaoboost/scripts/tree/master/packages/zhihu
 // @icon                https://pic1.zhimg.com/2e33f063f1bd9221df967219167b5de0_m.jpg
 //
 // @grant               GM_addStyle
