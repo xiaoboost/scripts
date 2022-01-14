@@ -1,1 +1,3 @@
-console.log('start');
+import { active } from './render';
+
+active();

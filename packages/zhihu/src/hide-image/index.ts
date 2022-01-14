@@ -1,4 +1,6 @@
-import { active as activeStyle } from './style';
+import style from './style.jss';
+
+import { addStyle } from '@scripts/utils';
 
 function watch() {
   /**
@@ -8,5 +10,5 @@ function watch() {
 }
 
 export function active() {
-  activeStyle();
+  addStyle(style.toString());
 }

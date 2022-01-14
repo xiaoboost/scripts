@@ -7,21 +7,22 @@
   "license": "GPLv3.0",
   "scripts": {
     "build:type": "tsc -p ./tsconfig.json --noEmit",
-    "build:code": "builder build --outFile=../../dist/e-hentai.js",
-    "build": "npm run build:type && npm run build:code -- --production",
-    "watch": "npm run build:code -- --development",
+    "build": "npm run build:type && builder build --outFile=dist/e-hentai.js --production",
+    "watch": "builder watch --outFile=dist/e-hentai.js --development",
     "lint": "eslint --quiet --no-error-on-unmatched-pattern --config ../../.eslintrc.js src/**/*.{ts,tsx,js,jsx}",
     "lint:fix": "eslint --fix --quiet --no-error-on-unmatched-pattern --config ../../.eslintrc.js src/**/*.{ts,tsx,js,jsx}"
   },
   "dependencies": {
+    "@scripts/components": "workspace:*",
     "@scripts/utils": "workspace:*",
-    "@xiao-ai/utils": "^1.4.3",
+    "@xiao-ai/utils": "^1.5.1",
     "preact": "^10.6.4"
   },
   "devDependencies": {
     "@scripts/builder": "workspace:*",
     "@scripts/tsconfig": "workspace:*",
     "@types/scripts": "workspace:*",
+    "tslib": "^2.3.1",
     "typescript": "^4.5.4"
   }
 }

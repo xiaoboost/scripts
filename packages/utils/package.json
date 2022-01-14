@@ -1,7 +1,7 @@
 {
   "name": "@scripts/utils",
   "version": "1.0.0",
-  "description": "公共编译工具",
+  "description": "工具库",
   "author": "xiaoboost",
   "license": "GPLv3.0",
   "source": "./src/index.ts",
@@ -12,7 +12,8 @@
     "lint:fix": "eslint --fix --quiet --no-error-on-unmatched-pattern --config ../../.eslintrc.js src/**/*.{ts,tsx,js,jsx}"
   },
   "dependencies": {
-    "@xiao-ai/utils": "^1.4.3"
+    "@xiao-ai/utils": "^1.5.1",
+    "jss": "^10.9.0"
   },
   "devDependencies": {
     "@scripts/tsconfig": "workspace:*",

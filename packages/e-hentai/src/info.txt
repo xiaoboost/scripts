@@ -5,15 +5,19 @@
 // @author              xiao
 // @license             GPLv3.0
 // @namespace           https://github.com/xiaoboost
-// @supportURL          https://github.com/xiaoboost/scripts
+// @supportURL          https://github.com/xiaoboost/scripts/issues
+// @homepageURL         https://github.com/xiaoboost/scripts/tree/master/packages/e-hentai
 // @icon                https://ehwiki.org/images/c/cd/E-Hentai.png
 //
+// @grant               GM_addStyle
+// @grant               GM_notification
+// @grant               GM_xmlhttpRequest
 // @grant               unsafeWindow
 // @run-at              document-start
-// @include             https://e-hentai.org/*
-// @include             https://exhentai.org/*
+// @include             https://e-hentai.org/g/*
+// @include             https://exhentai.org/g/*
 //
-// @date                2021/12/24
+// @date                2021/01/14
 // @modified            ${BUILD}
 // @version             ${VERSION}
 // ==/UserScript==

@@ -1,46 +1,42 @@
+import type { default as Jss, Styles } from 'jss';
+
 import { log } from './log';
-import { isObject, isString, hyphenate } from '@xiao-ai/utils';
-
-type JssObject = Partial<CSSStyleDeclaration> | {
-  [key: string]: JssObject;
-};
-
-type JssInput = Record<string, JssObject>;
+import { hyphenate } from '@xiao-ai/utils';
 
 const codes: string[] = [];
 
-export function addStyle(object: JssInput) {
-  function styleObjectToString(input: JssInput, selector: string, keys: string[]) {
-    let content = `${selector} {\n`;
+/** 外部注入虚拟 jss 变量 */
+declare const jss: typeof Jss;
+/** 外部注入虚拟类名表 */
+declare const NameHash: Record<string, number | undefined>;
 
-    for (const key of keys) {
-      content += `  ${hyphenate(key)}: ${input[key]};\n`;
-    }
+export function addStyle(code: string) {
+  codes.push(code);
+}
 
-    content += '}\n\n';
+export interface JssResult<Name extends string> {
+  classes: Record<Name, string>;
+  toString(): string;
+}
 
-    return content;
-  }
+/** 生成样式 */
+export function createStyle<Name extends string>(
+  style: Partial<Styles<Name, any, undefined>>,
+): JssResult<Name> {
+  return jss.createStyleSheet(style, {
+    generateId(rule) {
+      if (rule.key.startsWith('.')) {
+        return rule.key.substring(1);
+      }
 
-  function jssToString(input: JssInput, prefix = '') {
-    let content = '';
+      const name = hyphenate(rule.key);
+      const hash = (NameHash[name] ?? -1) + 1;
 
-    const props = Object.keys(input);
-    const subObjectKeys = props.filter((name) => isObject(input[name]));
-    const declarationKeys = props.filter((name) => isString(input[name]));
+      NameHash[name] = hash;
 
-    if (declarationKeys.length > 0) {
-      content += styleObjectToString(input, prefix, declarationKeys);
-    }
-
-    for (const key of subObjectKeys) {
-      content += jssToString(input[key] as any, `${prefix} ${key}`.trim());
-    }
-
-    return content;
-  }
-
-  codes.push(jssToString(object, ''));
+      return `script-${name}-${hash}`;
+    },
+  }).attach();
 }
 
 setTimeout(() => {

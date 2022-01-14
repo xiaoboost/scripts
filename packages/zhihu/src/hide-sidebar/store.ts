@@ -1,6 +1,8 @@
+import style from './style.jss';
+
 import { log } from '@scripts/utils';
 import { Watcher } from '@xiao-ai/utils';
-import { ClassName, StoreKey } from './constant';
+import { StoreKey } from './constant';
 import { addClassName, removeClassName } from '@xiao-ai/utils/web';
 
 /** 当前侧边栏状态 */
@@ -15,8 +17,8 @@ function setStatus(val: boolean) {
   GM_setValue(StoreKey, val);
 
   val
-    ? addClassName(document.body, ClassName.WidthFullMain)
-    : removeClassName(document.body, ClassName.WidthFullMain);
+    ? addClassName(document.body, style.classes.WidthFullMain)
+    : removeClassName(document.body, style.classes.WidthFullMain);
 }
 
 /** 初始化 */
