@@ -10,13 +10,15 @@ import {
   hentaiKind,
   HentaiKind,
   getAllPagesUrl,
-  downloadFile,
   getImagePreviewUrls,
   getImageUrlFromPreview,
+  getGalleryTitle,
+  ErrorCode,
+  download,
 } from "src/utils";
 
 import { TabEnum } from './constant';
-import { Log, ImageLogData, createImageLog } from "../log";
+import { Log, ImageLogData, createImageLog, ImageStatus } from "../log";
 import { Setting, defaultSetting, SettingData, ImageKind } from "../setting";
 
 addStyle(style.toString());
@@ -27,23 +29,17 @@ export interface Props {
 }
 
 export function DownloadPanel(props: Props) {
+  const [logMsg, setLogMsg] = useState('');
+  const [downloading, setLoading] = useState(false);
   const [config, setConfig] = useState(defaultSetting);
   const [tabValue, setTab] = useState(TabEnum.Setting);
-  const [logMsg, setLogMsg] = useState('');
   const [images, setImages] = useState([] as ImageLogData[]);
   const onSettingChange = (data: SettingData) => setConfig({
     ...config,
     ...data,
   });
-  const download = async () => {
-    // 切换至日志页面
-    setTab(TabEnum.Log);
-
-    // 获取链接
-    const pagesUrl = getAllPagesUrl();
-    const imagesUrl = getImagePreviewUrls(pagesUrl);
-
-    setLogMsg('获取图片预览链接中...');
+  const onDownload = async () => {
+    const updateImagesLog = () => setImages(images.slice());
 
     let images: ImageLogData[] = [];
     let val: IteratorResult<string[], string[]> = {
@@ -51,10 +47,19 @@ export function DownloadPanel(props: Props) {
       done: false,
     };
 
+    setTab(TabEnum.Log);
+    setLoading(true);
+
+    // 获取链接
+    const pagesUrl = getAllPagesUrl();
+    const imagesUrl = getImagePreviewUrls(pagesUrl);
+
+    setLogMsg('获取图片预览链接中...');
+
     while (!val.done) {
       val = await imagesUrl.next();
       images = createImageLog(val.value, images);
-      setImages(images);
+      updateImagesLog();
     }
 
     setLogMsg('解析所有图片预览页面...');
@@ -67,23 +72,46 @@ export function DownloadPanel(props: Props) {
       // 发生错误，记录之后跳过
       if ('error' in data) {
         img.error = data.error;
-        setImages(images.slice());
+        updateImagesLog();
         continue;
+      }
+      else {
+        img.name = data.name;
+        updateImagesLog();
       }
 
       setLogMsg(`正在下载第 ${img.index} 张图片...`);
+
+      img.error = undefined;
+      img.status = ImageStatus.Downloading;
+      updateImagesLog();
 
       const downloadUrl = config.imageKind === ImageKind.Origin
         ? data.originUrl ?? data.previewUrl
         : data.previewUrl;
 
-      await downloadFile(downloadUrl, data.name);
+      const downloadResult = await download(downloadUrl, img.name);
 
-      break;
-      // await delay(500);
+      if (downloadResult) {
+        img.error = undefined;
+        img.status = ImageStatus.Downloaded;
+        updateImagesLog();
+      }
+      else {
+        img.error = ErrorCode.DownloadImage;
+        img.status = ImageStatus.Error;
+        updateImagesLog();
+      }
+
+      await delay(400);
     }
 
+    GM_notification({
+      text: `《${getGalleryTitle(unsafeWindow.document)}》下载完成`,
+    });
+
     setLogMsg('下载结束');
+    setLoading(false);
   };
 
   if (!props.visible) {
@@ -107,8 +135,9 @@ export function DownloadPanel(props: Props) {
               component: (
                 <Setting
                   data={config}
+                  disabled={downloading}
                   onChange={onSettingChange}
-                  onDownload={download}
+                  onDownload={onDownload}
                 />
               )
             },
@@ -124,7 +153,10 @@ export function DownloadPanel(props: Props) {
             },
           ]}
         />
-        <IconClose className={style.classes.CloseBtn} onClick={props.onClose} />
+        <IconClose
+          className={style.classes.CloseBtn}
+          onClick={props.onClose}
+        />
       </div>
     </div>
   );

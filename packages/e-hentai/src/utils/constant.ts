@@ -13,6 +13,8 @@ export const IdName = {
   ImagePreviewInfo: 'i2',
   ImagePreview: 'img',
   ImageOrigin: 'i7',
+  TitleJapan: 'gj',
+  TitleTranslated: 'gn',
 } as const;
 
 /** 网址类别 */

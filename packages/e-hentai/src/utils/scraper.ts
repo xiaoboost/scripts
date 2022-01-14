@@ -1,5 +1,6 @@
 import { parseFromString } from './dom';
 import { ClassName, IdName } from './constant';
+import { fetch } from "@scripts/utils";
 import { isString, isDef, delay } from '@xiao-ai/utils';
 
 /** 错误码 */
@@ -95,6 +96,15 @@ type ImageData =
     originUrl?: string;
   };
 
+export function getGalleryTitle(doc: Document) {
+  const japanTitle = doc.querySelector(`#${IdName.TitleJapan}`);
+  const translatedTitle = doc.querySelector(`#${IdName.TitleTranslated}`);
+  const japanText = japanTitle?.textContent ?? '';
+  const translatedText = translatedTitle?.textContent ?? '';
+
+  return japanText.length > 0 ? japanText : translatedText;
+}
+
 /** 解析所有预览页面 */
 export async function getImageUrlFromPreview(url: string): Promise<ImageData> {
   const preview = await getHtml(url).catch((e) => {
@@ -136,78 +146,20 @@ export async function getImageUrlFromPreview(url: string): Promise<ImageData> {
 }
 
 /** 下载文件 */
-export async function downloadFile(url: string, name: string) {
-  // return new Promise<void>((resolve) => {
-  //   const page = unsafeWindow.open(url, '_blank');
+export async function download(url: string, name: string) {
+  try {
+    const fileBlob = await fetch(url, { responseType: 'blob' }).then((data) => data.blob());
+    const vLink = document.createElement('a');
 
-  //   page?.addEventListener('load', () => {
-  //     resolve();
-  //   });
-  // });
-  // return new Promise<void>((resolve) => {
-  //   // unsafeWindow.open(url, '_blank');
+    vLink.href = URL.createObjectURL(fileBlob);
+    vLink.download = name;
+    vLink.click();
 
-  //   const image = new Image();
-
-  //   image.src = url;
-  //   image.crossOrigin = 'anonymous';
-
-  //   image.onload = () => {
-  //     const canvas = document.createElement('canvas');
-  //     const context = canvas.getContext('2d')!;
-
-  //     debugger;
-  //     canvas.width = image.width;
-  //     canvas.height = image.height;
-  //     context.drawImage(image, 0, 0);
-
-  //     const base64 = context.canvas.toDataURL();
-
-  //     debugger;
-  //     resolve();
-  //   };
-
-  //   image.onerror = () => {
-  //     debugger;
-  //   };
-  // })
-  // const fileBlob = await fetch(url).then((data) => data.blob());
-  // debugger;
-  // const vLink = document.createElement('a');
-
-  // vLink.href = URL.createObjectURL(fileBlob);
-  // vLink.download = name;
-  // vLink.click();
-
-  // URL.revokeObjectURL(vLink.href);
-  // debugger;
-
-  return new Promise<void>(async (resolve) => {
-    const iframe = document.createElement('iframe');
-
-    iframe.src = '';
-    document.body.appendChild(iframe);
-
-    iframe.contentWindow!.document.body.innerHTML = `
-      <image src="${url}">
-      <script>
-      function test() {
-        alert('helo')
-      }
-
-      window.test = test;
-      </script>
-    `;
-
-    await delay(100);
-
-    debugger;
-
-    iframe.contentWindow!['targetFunction']();
-
-    iframe.addEventListener('load', () => {
-      debugger;
-      resolve();
-    });
-  });
+    URL.revokeObjectURL(vLink.href);
+    return true;
+  }
+  catch (e) {
+    console.warn(e);
+    return false;
+  }
 }

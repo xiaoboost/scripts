@@ -9,6 +9,8 @@
 // @icon                https://ehwiki.org/images/c/cd/E-Hentai.png
 //
 // @grant               GM_addStyle
+// @grant               GM_notification
+// @grant               GM_xmlhttpRequest
 // @grant               unsafeWindow
 // @run-at              document-start
 // @include             https://e-hentai.org/g/*

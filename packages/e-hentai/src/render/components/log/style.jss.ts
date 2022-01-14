@@ -1,5 +1,4 @@
 import { createStyle } from '@scripts/utils';
-import { HentaiKind, HentaiStyle } from 'src/utils';
 
 const scrollbarWidth = 6;
 
@@ -73,6 +72,9 @@ export default createStyle({
   logStatus: {
     width: 110,
     textAlign: 'center',
+  },
+  logStatusError: {
+    color: '#ff6900',
   },
   '@global': {
     '$article': {

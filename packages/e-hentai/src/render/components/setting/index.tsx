@@ -1,7 +1,6 @@
 import style from './style.jss';
 
 import { h } from 'preact';
-import { useState } from 'preact/hooks';
 import { addStyle } from '@scripts/utils';
 import { Select } from '@scripts/components';
 
@@ -15,21 +14,13 @@ addStyle(style.toString());
 
 export interface Props {
   data: SettingData;
+  disabled?: boolean;
   onChange?(data: SettingData): void;
   onDownload?(): void;
   onCancel?(): void;
 }
 
 export function Setting(props: Props) {
-  const [downloading, setLoading] = useState(false);
-  const onDownload = () => {
-    setLoading(true);
-    props.onDownload?.();
-  };
-  const onCancel = () => {
-    setLoading(false);
-    props.onCancel?.();
-  };
   const onChange = (data: Partial<SettingData>) => {
     props.onChange?.({
       ...props.data,
@@ -45,7 +36,7 @@ export function Setting(props: Props) {
             <Select
               value={props.data.imageKind}
               defaultValue={ImageKind.Origin}
-              disabled={downloading}
+              disabled={props.disabled}
               onChange={(imageKind: ImageKind) => onChange({ imageKind })}
               options={[
                 {
@@ -63,22 +54,22 @@ export function Setting(props: Props) {
         <FormBox title='下载范围'>
           <RangeBox
             data={props.data.range}
-            disabled={downloading}
+            disabled={props.disabled}
             onChange={(range) => onChange({ range })}
           />
         </FormBox>
       </article>
       <footer className={style.classes.footer}>
         <button
-          disabled={!downloading}
-          onClick={onCancel}
+          disabled={!props.disabled}
+          onClick={props.onCancel}
         >
           中断下载
         </button>
         <button
           className={style.classes.btn}
-          disabled={downloading}
-          onClick={onDownload}
+          disabled={props.disabled}
+          onClick={props.onDownload}
         >
           下载画廊
         </button>
