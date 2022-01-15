@@ -15,12 +15,21 @@ export default createStyle({
       '&$ImageBoxHide figure': {
         display: 'none',
       },
+
+      '@global': {
+        'figure[data-size]': {
+          width: '100%',
+          margin: 0,
+          marginTop: 8,
+        },
+      },
     },
     '& $ImageBtn': {
-      fontSize: '12px',
+      fontSize: 12,
       color: '#AAA',
+      margin: 0,
       textDecoration: 'none',
-      marginBottom: '.4em',
+      cursor: 'pointer',
     },
   },
 });

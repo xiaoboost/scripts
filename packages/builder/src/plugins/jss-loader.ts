@@ -118,7 +118,7 @@ export function JssLoader() {
         else if (isJssObject(result.output)) {
           cssCode = result.output.toString({
             indent: 0,
-            format: true,
+            format: !options.minify,
             allowEmpty: false,
           });
         }
@@ -129,13 +129,17 @@ export function JssLoader() {
           });
         }
 
+        const classesString = options.minify
+          ? JSON.stringify(result.output.classes ?? {})
+          : JSON.stringify(result.output.classes ?? {}, null, 2)
+
         return {
           errors,
           loader: "js",
           watchFiles: getFiles(),
           contents: `
             export default {
-              classes: ${JSON.stringify(result.output.classes ?? {})},
+              classes: ${classesString},
               toString: function() { return \`${cssCode}\`; },
             };
           `,

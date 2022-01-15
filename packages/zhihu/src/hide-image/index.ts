@@ -1,6 +1,8 @@
 import style from './style.jss';
 
 import { addStyle } from '@scripts/utils';
+import { wrapAllImage } from './render';
+// import {  } from './constant';
 
 function watch() {
   /**
@@ -11,4 +13,8 @@ function watch() {
 
 export function active() {
   addStyle(style.toString());
+
+  unsafeWindow.addEventListener('load', () => {
+    wrapAllImage();
+  });
 }
