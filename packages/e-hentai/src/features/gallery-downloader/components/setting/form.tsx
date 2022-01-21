@@ -1,4 +1,4 @@
-import style from '../style.jss';
+import style from './style.jss';
 
 import { h, ComponentChildren } from 'preact';
 

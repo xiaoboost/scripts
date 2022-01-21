@@ -109,7 +109,7 @@ export function DownloadPanel(props: Props) {
 
     GM_notification({
       text: (
-        `《${getGalleryTitle(unsafeWindow.document)}》下载完成，` +
+        `《${getGalleryTitle()}》下载完成，` +
         `共耗时 ${format(Date.now() - startTime)}`
       ),
     });

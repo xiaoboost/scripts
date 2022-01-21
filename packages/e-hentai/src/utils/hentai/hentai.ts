@@ -3,15 +3,22 @@ import { ClassName, IdName } from './constant';
 import { fetch } from "@scripts/utils";
 import { isString, isDef, delay } from '@xiao-ai/utils';
 
-type ImageData =
-  | {
-    error: ErrorCode;
-  }
-  | {
-    name: string;
-    previewUrl: string;
-    originUrl?: string;
-  };
+/** 图片数据 */
+interface ImageData {
+  /** 图片文件名字 */
+  name: string;
+  /** 预览图片链接 */
+  previewUrl: string;
+  /** 原始图片链接 */
+  originUrl?: string;
+  /** 获取数据时的错误信息 */
+  error?: string;
+}
+
+/** 画廊数据 */
+interface GalleryData {
+  // ..
+}
 
 /** 错误码 */
 export enum ErrorCode {
@@ -40,7 +47,7 @@ export function isSearchPage() {
 
 /** 是否是画廊页面 */
 export function isGalleryPage() {
-  return Boolean(document.querySelector(`#${IdName.GalleryInfo}`));
+  return Boolean(document.querySelector(`#${IdName.}`));
 }
 
 /** 收集所有预览页网址 */
@@ -99,7 +106,7 @@ export async function *getImagePreviewUrls(url: string | string[]) {
 }
 
 /** 获取当前画廊标题 */
-export function getGalleryTitle(doc: Document) {
+export function getGalleryTitle(doc = unsafeWindow.document) {
   const japanTitle = doc.querySelector(`#${IdName.TitleJapan}`);
   const translatedTitle = doc.querySelector(`#${IdName.TitleTranslated}`);
   const japanText = japanTitle?.textContent ?? '';
@@ -150,4 +157,14 @@ export async function getImageUrlFromPreview(url: string): Promise<ImageData> {
     previewUrl: previewUrl!,
     originUrl,
   };
+}
+
+/** 获取当前列表中的所有画廊链接 */
+export function getGalleryUrls(doc = unsafeWindow.document){
+  // ..
+}
+
+/** 获取画廊的种子 */
+export async function getGalleryTorrent(doc = unsafeWindow.document) {
+  // ..
 }
