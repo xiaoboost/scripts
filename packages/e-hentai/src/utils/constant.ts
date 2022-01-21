@@ -15,6 +15,8 @@ export const IdName = {
   ImageOrigin: 'i7',
   TitleJapan: 'gj',
   TitleTranslated: 'gn',
+  GalleryInfo: 'gmid',
+  SearchOption: 'toppane',
 } as const;
 
 /** 网址类别 */

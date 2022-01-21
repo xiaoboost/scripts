@@ -4,8 +4,8 @@ import { h } from 'preact';
 import { addStyle } from '@scripts/utils';
 import { Select } from '@scripts/components';
 
-import { RangeBox } from './components/range';
-import { FormBox, FormRow } from './components/form';
+// import { RangeBox } from './range';
+import { FormBox, FormRow } from './form';
 import { ImageKind, SettingData } from './constant';
 
 export * from './constant';

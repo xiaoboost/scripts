@@ -3,6 +3,16 @@ import { ClassName, IdName } from './constant';
 import { fetch } from "@scripts/utils";
 import { isString, isDef, delay } from '@xiao-ai/utils';
 
+type ImageData =
+  | {
+    error: ErrorCode;
+  }
+  | {
+    name: string;
+    previewUrl: string;
+    originUrl?: string;
+  };
+
 /** 错误码 */
 export enum ErrorCode {
   /** 获取预览页面 */
@@ -23,12 +33,14 @@ export const ErrorText = {
   [ErrorCode.DownloadImage]: '下载图片时出错',
 };
 
-function getHtml(url: string) {
-  return fetch(url).then((data) => data.text());
+/** 是否是搜索页面 */
+export function isSearchPage() {
+  return Boolean(document.querySelector(`#${IdName.SearchOption}`));
 }
 
-function getImageName(info: string) {
-  return info.split('::')[0]?.trim() ?? '';
+/** 是否是画廊页面 */
+export function isGalleryPage() {
+  return Boolean(document.querySelector(`#${IdName.GalleryInfo}`));
 }
 
 /** 收集所有预览页网址 */
@@ -47,24 +59,24 @@ export function getAllPagesUrl() {
   });
 }
 
-function getImageUrlsFromDocument(document: Document) {
-  const selector = `#${IdName.ImageListBox} .${ClassName.ImageBox} a`;
-  const elements = Array.from(document.querySelectorAll(selector));
-  const urls = elements
-    .map((item) => item.getAttribute('href'))
-    .filter(isDef)
-    .filter((item) => item.length > 0);
-
-  return urls;
-}
-
-/** 收集当前页面的图片预览网址 */
+/** 获取当前画廊的图片预览网址 */
 export async function *getImagePreviewUrls(url: string | string[]) {
   const urls = isString(url) ? [url] : url;
   const imageUrls: string[] = [];
 
+  function getImageUrlsFromDocument(document: Document) {
+    const selector = `#${IdName.ImageListBox} .${ClassName.ImageBox} a`;
+    const elements = Array.from(document.querySelectorAll(selector));
+    const urls = elements
+      .map((item) => item.getAttribute('href'))
+      .filter(isDef)
+      .filter((item) => item.length > 0);
+
+    return urls;
+  }
+
   for (const link of urls) {
-    const html = await getHtml(link).catch(() => {
+    const html = await fetch(link).then((data) => data.text()).catch(() => {
       // TODO: 错误处理
       return void 0;
     });
@@ -86,16 +98,7 @@ export async function *getImagePreviewUrls(url: string | string[]) {
   return imageUrls;
 }
 
-type ImageData =
-  | {
-    error: ErrorCode;
-  }
-  | {
-    name: string;
-    previewUrl: string;
-    originUrl?: string;
-  };
-
+/** 获取当前画廊标题 */
 export function getGalleryTitle(doc: Document) {
   const japanTitle = doc.querySelector(`#${IdName.TitleJapan}`);
   const translatedTitle = doc.querySelector(`#${IdName.TitleTranslated}`);
@@ -107,7 +110,7 @@ export function getGalleryTitle(doc: Document) {
 
 /** 解析所有预览页面 */
 export async function getImageUrlFromPreview(url: string): Promise<ImageData> {
-  const preview = await getHtml(url).catch((e) => {
+  const preview = await fetch(url).then((data) => data.text()).catch((e) => {
     console.warn(e);
   });
 
@@ -115,6 +118,10 @@ export async function getImageUrlFromPreview(url: string): Promise<ImageData> {
     return {
       error: ErrorCode.GetPreviewPage,
     };
+  }
+
+  function getImageName(info: string) {
+    return info.split('::')[0]?.trim() ?? '';
   }
 
   const document = parseFromString(preview);
@@ -143,23 +150,4 @@ export async function getImageUrlFromPreview(url: string): Promise<ImageData> {
     previewUrl: previewUrl!,
     originUrl,
   };
-}
-
-/** 下载文件 */
-export async function download(url: string, name: string) {
-  try {
-    const fileBlob = await fetch(url, { responseType: 'blob' }).then((data) => data.blob());
-    const vLink = document.createElement('a');
-
-    vLink.href = URL.createObjectURL(fileBlob);
-    vLink.download = name;
-    vLink.click();
-
-    URL.revokeObjectURL(vLink.href);
-    return true;
-  }
-  catch (e) {
-    console.warn(e);
-    return false;
-  }
 }

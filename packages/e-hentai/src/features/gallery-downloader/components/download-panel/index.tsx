@@ -2,7 +2,7 @@ import style from "./style.jss";
 
 import { h } from "preact";
 import { useState } from 'preact/hooks';
-import { addStyle } from "@scripts/utils";
+import { addStyle, download } from "@scripts/utils";
 import { Tabs, IconClose } from "@scripts/components";
 import { delay, stringifyClass as cln } from "@xiao-ai/utils";
 
@@ -14,12 +14,11 @@ import {
   getImageUrlFromPreview,
   getGalleryTitle,
   ErrorCode,
-  download,
   format,
 } from "src/utils";
 
 import { TabEnum } from './constant';
-import { Log, ImageLogData, createImageLog, ImageStatus } from "../log";
+import { Log, ImageLogData, createImageLog, ImageStatus } from "src/components/log";
 import { Setting, defaultSetting, SettingData, ImageKind } from "../setting";
 
 addStyle(style.toString());

@@ -1,4 +1,5 @@
 import { render, h } from 'preact';
+import { IdName } from './constant';
 
 export function parseFromString(code: string) {
   const doc = document.implementation.createHTMLDocument('');
