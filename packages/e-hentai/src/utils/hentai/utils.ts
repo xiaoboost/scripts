@@ -38,6 +38,7 @@ export const ClassName = {
   RightAsideSplitItem: 'gsp',
   PageList: 'ptt',
   ImageBox: 'gdtm',
+  GalleryFooterInSearchPage: 'gl5t',
   GalleryInfoTableName: 'gdt1',
   GalleryInfoTableValue: 'gdt2',
 } as const;
@@ -71,7 +72,7 @@ export const hentaiKind = globalThis.location?.hostname.startsWith('exhentai')
 
 /** 是否是搜索页面 */
 export function isSearchPage() {
-  return Boolean(document.querySelector(`#${IdName.SearchOption}`));
+  return location.pathname === '/';
 }
 
 /** 是否是画廊页面 */
