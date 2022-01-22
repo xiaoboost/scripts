@@ -1,24 +1,19 @@
-import style from "./style.jss";
-
 import { h } from "preact";
 import { useState, useRef } from 'preact/hooks';
-import { addStyle, download } from "@scripts/utils";
-import { Tabs, IconClose } from "@scripts/components";
-import { delay, stringifyClass as cln } from "@xiao-ai/utils";
+import { download } from "@scripts/utils";
+import { Tabs } from "@scripts/components";
+import { delay } from "@xiao-ai/utils";
 
 import {
-  hentaiKind,
-  HentaiKind,
   HentaiGallery,
   HentaiImage,
   format,
 } from "src/utils";
 
 import { TabEnum } from './constant';
+import { Modal } from 'src/components/modal';
 import { Log, LogData } from "src/components/log";
 import { Setting, defaultSetting, SettingData, ImageKind } from "../setting";
-
-addStyle(style.toString());
 
 export interface Props {
   visible: boolean;
@@ -130,45 +125,37 @@ export function DownloadPanel(props: Props) {
   }
 
   return (
-    <div className={style.classes.PanelMask}>
-      <div
-        className={cln(style.classes.Panel, {
-          [style.classes.PanelEx]: hentaiKind === HentaiKind.Ex,
-          [style.classes.PanelNormal]: hentaiKind === HentaiKind.Normal,
-        })}
-      >
-        <Tabs
-          value={tabValue}
-          tabsData={[
-            {
-              name: "设置",
-              value: TabEnum.Setting,
-              component: (
-                <Setting
-                  data={config}
-                  disabled={downloading}
-                  onChange={onSettingChange}
-                  onDownload={onDownload}
-                />
-              )
-            },
-            {
-              name: "日志",
-              value: TabEnum.Log,
-              component: (
-                <Log
-                  message={logMsg}
-                  logs={logs}
-                />
-              ),
-            },
-          ]}
-        />
-        <IconClose
-          className={style.classes.CloseBtn}
-          onClick={props.onClose}
-        />
-      </div>
-    </div>
+    <Modal
+      visible={props.visible}
+      onClose={props.onClose}
+    >
+      <Tabs
+        value={tabValue}
+        tabsData={[
+          {
+            name: "设置",
+            value: TabEnum.Setting,
+            component: (
+              <Setting
+                data={config}
+                disabled={downloading}
+                onChange={onSettingChange}
+                onDownload={onDownload}
+              />
+            )
+          },
+          {
+            name: "日志",
+            value: TabEnum.Log,
+            component: (
+              <Log
+                message={logMsg}
+                logs={logs}
+              />
+            ),
+          },
+        ]}
+      />
+    </Modal>
   );
 }

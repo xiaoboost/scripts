@@ -3,8 +3,7 @@ import style from './style.jss';
 import { h } from 'preact';
 import { useState } from 'preact/hooks';
 import { addStyle } from "@scripts/utils";
-import { stringifyClass } from '@xiao-ai/utils';
-import { ClassName } from 'src/utils';
+import { DownloadPanel } from '../download-panel';
 
 addStyle(style.toString());
 
@@ -18,6 +17,11 @@ export function MainButton() {
         value='Download Galleries'
         className={style.classes.downloadBtn}
         onClick={() => setVisible(true)}
+      />
+
+      <DownloadPanel
+        visible={visiblePanel}
+        onClose={() => setVisible(false)}
       />
     </div>
   )

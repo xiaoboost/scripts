@@ -2,7 +2,7 @@ import { createStyle } from '@scripts/utils';
 import { HentaiKind, HentaiStyle } from 'src/utils';
 
 export default createStyle({
-  PanelMask: {
+  modalMask: {
     position: 'fixed',
     width: '100vw',
     height: '100vh',
@@ -13,26 +13,26 @@ export default createStyle({
     alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
-  PanelEx: {},
-  PanelNormal: {},
-  Panel: {
+  modalEx: {},
+  modalNormal: {},
+  modal: {
     width: 360,
     top: GlobalEnv.node === 'development' ? 0 : '-15%',
     borderRadius: 10,
     position: 'relative',
 
-    '&$PanelEx': {
+    '&$modalEx': {
       boxShadow: `0px 0px 10px ${HentaiStyle[HentaiKind.Ex].shadowColor}`,
       backgroundColor: HentaiStyle[HentaiKind.Ex].backgroundColor,
       color: HentaiStyle[HentaiKind.Ex].textColor,
     },
-    '&$PanelNormal': {
+    '&$modalNormal': {
       boxShadow: `0px 0px 10px ${HentaiStyle[HentaiKind.Normal].shadowColor}`,
       backgroundColor: HentaiStyle[HentaiKind.Normal].backgroundColor,
       color: HentaiStyle[HentaiKind.Normal].textColor,
     },
   },
-  CloseBtn: {
+  closeBtn: {
     position: 'absolute',
     right: 8,
     top: 12,
