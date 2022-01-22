@@ -7,7 +7,7 @@ export default createStyle({
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
-
+    boxSizing: 'border-box',
     borderColor: '#000',
   },
   spaceBox: {
@@ -53,8 +53,10 @@ export default createStyle({
   },
   nameList: {
     flexGrow: 1,
+    maxWidth: 270,
   },
   msgList: {
+    flexGrow: 1,
     borderRight: 0,
     maxWidth: 80,
   },

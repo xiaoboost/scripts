@@ -38,6 +38,8 @@ export const ClassName = {
   RightAsideSplitItem: 'gsp',
   PageList: 'ptt',
   ImageBox: 'gdtm',
+  GalleryListCoverBox: 'gl1t',
+  GalleryListCoverTitle: 'gl4t',
   GalleryFooterInSearchPage: 'gl5t',
   GalleryInfoTableName: 'gdt1',
   GalleryInfoTableValue: 'gdt2',

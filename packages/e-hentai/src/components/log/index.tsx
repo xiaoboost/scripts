@@ -11,22 +11,24 @@ export * from './constant';
 addStyle(style.toString());
 
 export interface Props {
+  className?: string;
+  style?: h.JSX.CSSProperties;
   /** 日志信息 */
   message: string;
   /** 日志表单数据 */
   logs: LogData[];
-  /** 功能按钮 */
-  button?: {
-    text: string;
-    onCLick(): void;
-  };
+  /** 日志表单为空时的文本 */
+  placeholder?: string;
 }
 
 export function Log(props: Props) {
   // 数据全无
   if (props.message.length === 0 && props.logs.length === 0) {
     return (
-      <div className={style.classes.spaceBox}>
+      <div
+        style={props.style}
+        className={cln(style.classes.spaceBox, props.className)}
+      >
         <span>当前没有日志</span>
       </div>
     );
@@ -35,14 +37,17 @@ export function Log(props: Props) {
   // 有消息，无记录
   if (props.message.length > 0 && props.logs.length === 0) {
     return (
-      <div className={style.classes.box}>
+      <div
+        style={props.style}
+        className={cln(style.classes.box, props.className)}
+      >
         <p className={style.classes.title}>{props.message}</p>
         <article
           className={style.classes.article}
           style={{ height: 200 }}
         >
           <div className={style.classes.spaceList}>
-            暂无记录
+            {props.placeholder ?? '暂无记录'}
           </div>
         </article>
       </div>
@@ -50,7 +55,10 @@ export function Log(props: Props) {
   }
 
   return (
-    <div className={style.classes.box}>
+    <div
+      style={props.style}
+      className={cln(style.classes.box, props.className)}
+    >
       <p className={style.classes.title}>{props.message}</p>
       <article className={style.classes.article}>
         <div className={style.classes.listBox}>
