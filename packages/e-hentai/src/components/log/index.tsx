@@ -3,8 +3,7 @@ import style from './style.jss';
 import { h } from 'preact';
 import { addStyle } from '@scripts/utils';
 import { isDef, stringifyClass as cln } from '@xiao-ai/utils';
-import { ImageLogData, StatusText } from './constant';
-import { ErrorText } from 'src/utils';
+import { LogData } from './constant';
 
 export * from './constant';
 export * from './utils';
@@ -12,10 +11,15 @@ export * from './utils';
 addStyle(style.toString());
 
 export interface Props {
-  /** 最新日志消息 */
+  /** 日志信息 */
   message: string;
-  /** 图片日志表单 */
-  images: ImageLogData[];
+  /** 日志表单数据 */
+  images: LogData[];
+  /** 功能按钮 */
+  button?: {
+    text: string;
+    onCLick(): void;
+  };
 }
 
 export function Log(props: Props) {

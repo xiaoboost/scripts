@@ -1,3 +1,42 @@
+/** 运行结果 */
+export interface Result<T> {
+  data?: T;
+  message: string;
+  extra?: string;
+}
+
+/** 画廊标题数据 */
+export interface GalleryTitle {
+  title: string;
+  subtitle: string;
+}
+
+/** 图片信息 */
+export interface ImageInfo {
+  /** 图片链接 */
+  url: string;
+  /**
+   * 图片数据大小
+   *   - 单位：`KB`
+   */
+  dataSize: number;
+  /** 图片宽高 */
+  size: {
+    width: number;
+    height: number;
+  };
+}
+
+/** 图片数据 */
+export interface GalleryImageData {
+  /** 图片文件名字 */
+  name: string;
+  /** 预览图片 */
+  priview: ImageInfo;
+  /** 图片原大小 */
+  origin?: ImageInfo;
+}
+
 /** 绅士页面类名 */
 export const ClassName = {
   RightAsideItem: 'g2',
@@ -13,6 +52,7 @@ export const IdName = {
   RightAside: 'gd5',
   ImageListBox: 'gdt',
   ImagePreviewInfo: 'i2',
+  ImageOriginInfo: 'i7',
   ImagePreview: 'img',
   ImageOrigin: 'i7',
   GalleryMainTitle: 'gj',
@@ -47,15 +87,3 @@ export function isGalleryPage() {
 
 /** 无错误信息 */
 export const NoError = 'ok';
-
-/** 运行结果 */
-export interface Result<T> {
-  data?: T;
-  message: string;
-}
-
-/** 画廊标题数据 */
-export interface GalleryTitle {
-  title: string;
-  subtitle: string;
-}
