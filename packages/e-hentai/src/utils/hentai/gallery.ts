@@ -2,14 +2,12 @@ import { parseFromString } from '../dom';
 import { parseDataSize } from '../data';
 import { PageData } from './page';
 import { HentaiImage } from './image';
-import { fetch } from "@scripts/utils";
+import { fetch, log } from "@scripts/utils";
 import { isDef, delay } from '@xiao-ai/utils';
 
 import {
-  ClassName,
   IdName,
-  Result,
-  NoError,
+  ClassName,
   GalleryTitle,
 } from './utils';
 
@@ -21,31 +19,27 @@ export interface HentaiGalleryTitle {
 /** 画廊类 */
 export class HentaiGallery extends PageData {
   /** 所有分页网址 */
-  private pageUrls: string[] = [];
+  private _pageUrls: string[] = [];
   /** 所有图片 */
-  private images: HentaiImage[] = [];
+  private _images: HentaiImage[] = [];
 
   constructor(url: string, doc?: Document) {
     super(url, doc);
   }
 
+  get images() {
+    return this._images.slice();
+  }
+
   /** 获取画廊标题 */
-  async getTitle(): Promise<Result<GalleryTitle>> {
-    const { data: doc, message } = await this.getDocument();
-
-    if (!doc) {
-      return { message };
-    }
-
+  async getTitle(): Promise<GalleryTitle> {
+    const doc = await this.getDocument();
     const mainTitle = doc.querySelector(`#${IdName.GalleryMainTitle}`);
     const subTitle = doc.querySelector(`#${IdName.GallerySubTitle}`);
 
     return {
-      message: NoError,
-      data: {
-        title: mainTitle?.textContent ?? '',
-        subtitle: subTitle?.textContent ?? '',
-      },
+      title: mainTitle?.textContent ?? '',
+      subtitle: subTitle?.textContent ?? '',
     };
   }
 
@@ -53,14 +47,9 @@ export class HentaiGallery extends PageData {
    * 获取画廊文件大小
    *  - 单位：`KB`
    */
-  async getSize(): Promise<Result<number>> {
-    const { data: doc, message } = await this.getDocument();
-
-    if (!doc) {
-      return { message };
-    }
-
-    const errorText = '获取画廊大小时出错';
+  async getSize(): Promise<number> {
+    const doc = await this.getDocument();
+    const error = new Error('获取画廊大小时出错');
     const tableEls = Array.from(doc.querySelectorAll(`
       #${IdName.GalleryInfo} .${ClassName.GalleryInfoTableName},
       #${IdName.GalleryInfo} .${ClassName.GalleryInfoTableValue}
@@ -76,41 +65,30 @@ export class HentaiGallery extends PageData {
       const sizeText = tableEls[i + 1]?.textContent;
 
       if (!sizeText) {
-        return { message: errorText };
+        throw error;
       }
 
       const size = parseDataSize(sizeText);
 
       if (size === -1) {
-        return { message: '解析画廊大小出错' };
+        throw error;
       }
 
-      return {
-        data: size,
-        message: NoError,
-      };
+      return size;
     }
 
-    return { message: errorText };
+    throw error;
   }
 
   /** 获取所有分页网址 */
-  async getPageUrls(): Promise<Result<string[]>> {
-    if (this.pageUrls) {
-      return {
-        data: this.pageUrls.slice(),
-        message: NoError,
-      };
+  async getPageUrls(): Promise<string[]> {
+    if (this._pageUrls.length > 0) {
+      return this._pageUrls.slice();
     }
 
-    const { data: doc, message } = await this.getDocument();
-
-    if (!doc) {
-      return { message };
-    }
-
+    const doc = await this.getDocument();
     const baseUrl = `${location.origin}${location.pathname}`;
-    const pageListDom = Array.from(document.querySelectorAll(
+    const pageListDom = Array.from(doc.querySelectorAll(
       `.${ClassName.PageList} tr td a[href]`
     ));
     const maxPageNumber = Math.max(...pageListDom
@@ -118,25 +96,18 @@ export class HentaiGallery extends PageData {
       .filter((n) => !Number.isNaN(n))
     );
 
-    this.pageUrls = Array(maxPageNumber).fill(0).map((_, index) => {
+    this._pageUrls = Array(maxPageNumber).fill(0).map((_, index) => {
       return index === 0
         ? baseUrl
         : `${baseUrl}?p=${index}`;
     });
 
-    return {
-      data: this.pageUrls.slice(),
-      message: NoError,
-    };
+    return this._pageUrls.slice();
   }
 
   /** 获取所有图片 */
-  async * getImages(): AsyncGenerator<Result<HentaiImage[]>> {
-    const { data: pageUrls, message } = await this.getPageUrls();
-
-    if (!pageUrls) {
-      return { message };
-    }
+  async *getImages(): AsyncGenerator<HentaiImage[], HentaiImage[]> {
+    const pageUrls = await this.getPageUrls();
 
     for (let i = 0; i < pageUrls.length; i++) {
       const html = await fetch(pageUrls[i])
@@ -144,9 +115,10 @@ export class HentaiGallery extends PageData {
         .catch((e) => console.warn(e));
 
       if (!html) {
-        yield {
-          message: `获取第 ${i + 1} 页预览页网页源码时出错`,
-        };
+        if (GlobalEnv.node === 'development') {
+          log(`获取第 ${i + 1} 页预览页网页源码时出错，跳过。`);
+        }
+
         continue;
       }
 
@@ -158,53 +130,44 @@ export class HentaiGallery extends PageData {
         .filter((item) => isDef(item) && item.length > 0)
         .map((url) => new HentaiImage(url!));
 
-      this.images.push(...imageUrls);
+      this._images = this.images
+        .concat(imageUrls)
+        .sort((pre, next) => pre.index > next.index ? 1 : -1);
 
-      yield {
-        data: this.images.slice(),
-        message: NoError,
-      };
+      yield this._images.slice();
 
       await delay(500);
     }
 
-    return {
-      data: this.images.slice(),
-      message: NoError,
-    };
+    return this.images;
   }
 
   /**
    * 获取画廊种子文件
    *  - 拥有多个种子时，先按照大小选择，和画廊有5%差距中还有多个时，再按照时间选择最新上传的
    */
-  async getTorrent(): Promise<Result<void>> {
-    const { data: doc, message } = await this.getDocument();
-
-    if (!doc) {
-      return { message };
-    }
-
+  async getTorrent(): Promise<void> {
+    const doc = await this.getDocument();
     const actionEls = Array.from(doc.querySelectorAll(
       `#${IdName.RightAside} .${ClassName.RightAsideItem} a`
     ));
     const torrentEl = actionEls.find((el) => el.textContent?.includes('Torrent Download'));
 
     if (!torrentEl) {
-      return { message: '未发现种子下载按钮' };
+      throw new Error('未发现种子下载按钮');
     }
 
     const btnText = torrentEl.textContent ?? '';
 
     if (btnText.endsWith('(0)')) {
-      return { message: '没有种子文件' };
+      throw new Error('没有种子文件');
     }
 
     const btnOnClickCode = torrentEl.getAttribute('onclick');
     const torrentListUrl = /popUp\('([^']+?)'/.exec(btnOnClickCode ?? '');
 
     if (!torrentListUrl || !torrentListUrl[1]) {
-      return { message: '解析种子列表页链接出错' };
+      throw new Error('解析种子列表页链接出错');
     }
 
     const listPageCode = await fetch(torrentListUrl[1])
@@ -212,7 +175,7 @@ export class HentaiGallery extends PageData {
       .catch((e) => console.warn(e));
 
     if (!listPageCode) {
-      return { message: '获取种子列表页源码出错' };
+      throw new Error('获取种子列表页源码出错');
     }
 
     const listPageDoc = parseFromString(listPageCode);
@@ -221,8 +184,6 @@ export class HentaiGallery extends PageData {
       // TODO: 解析列表页
     });
 
-    return {
-      message: '未知错误',
-    };
+    throw new Error('未知错误');
   }
 }

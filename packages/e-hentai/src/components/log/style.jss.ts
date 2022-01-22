@@ -7,6 +7,8 @@ export default createStyle({
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
+
+    borderColor: '#000',
   },
   spaceBox: {
     height: 100,
@@ -31,49 +33,45 @@ export default createStyle({
     overflowX: 'hidden',
     overflowY: 'auto',
   },
-  logList: {
-    marginTop: 10,
+  listBox: {
+    display: 'flex',
+    border: '1px solid',
+    listStyle: 'none',
+  },
+  comlunList: {
+    flexGrow: 0,
+    flexShrink: 0,
     padding: 0,
-    border: `1px solid #000`,
-    marginRight: 4,
+    margin: 0,
+    listStyle: 'none',
+    borderRight: '1px solid',
+    display: 'flex',
+    flexDirection: 'column',
   },
-  logItem: {
-    borderBottom: `1px solid #000`,
+  indexList: {
+    // ..
+  },
+  nameList: {
+    flexGrow: 1,
+  },
+  msgList: {
+    borderRight: 0,
+    maxWidth: 80,
+  },
+  listItem: {
+    borderTop: '1px solid',
+    padding: '2px 4px',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    boxSizing: 'border-box',
+    height: 22,
 
-    '&:last-child': {
-      borderBottom: 0,
-    },
-
-    '& > *': {
-      borderRight: `1px solid #000`,
-      display: 'inline-block',
-      boxSizing: 'border-box',
-      padding: 4,
-      fontSize: 14,
-      lineHeight: '14px',
-    },
-
-    '& > *:last-child': {
-      borderRight: 0,
+    '&:first-child': {
+      borderTop: 0,
     },
   },
-  logIndex: {
-    width: 40,
-    textAlign: 'left',
-  },
-  logName: {
-    width: 130,
-    textAlign: 'center',
-  },
-  logPreview: {
-    width: 40,
-    textAlign: 'center',
-  },
-  logStatus: {
-    width: 110,
-    textAlign: 'center',
-  },
-  logStatusError: {
+  errorMsg: {
     color: '#ff6900',
   },
   '@global': {

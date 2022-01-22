@@ -1,7 +1,7 @@
 import style from "./style.jss";
 
 import { h } from "preact";
-import { useState } from 'preact/hooks';
+import { useState, useRef } from 'preact/hooks';
 import { addStyle, download } from "@scripts/utils";
 import { Tabs, IconClose } from "@scripts/components";
 import { delay, stringifyClass as cln } from "@xiao-ai/utils";
@@ -9,16 +9,13 @@ import { delay, stringifyClass as cln } from "@xiao-ai/utils";
 import {
   hentaiKind,
   HentaiKind,
-  getAllPagesUrl,
-  getImagePreviewUrls,
-  getImageUrlFromPreview,
-  getGalleryTitle,
-  ErrorCode,
+  HentaiGallery,
+  HentaiImage,
   format,
 } from "src/utils";
 
 import { TabEnum } from './constant';
-import { Log, ImageLogData, createImageLog, ImageStatus } from "src/components/log";
+import { Log, LogData } from "src/components/log";
 import { Setting, defaultSetting, SettingData, ImageKind } from "../setting";
 
 addStyle(style.toString());
@@ -29,89 +26,99 @@ export interface Props {
 }
 
 export function DownloadPanel(props: Props) {
+  // 日志数据
   const [logMsg, setLogMsg] = useState('');
+  const [logs, setLogs] = useState([] as LogData[]);
+
+  // 面板状态
   const [downloading, setLoading] = useState(false);
   const [config, setConfig] = useState(defaultSetting);
   const [tabValue, setTab] = useState(TabEnum.Setting);
-  const [images, setImages] = useState([] as ImageLogData[]);
+
+  // 画廊数据
+  const { current: gallery } = useRef(new HentaiGallery(location.href, document));
+
   const onSettingChange = (data: SettingData) => setConfig({
     ...config,
     ...data,
   });
   const onDownload = async () => {
-    const updateImagesLog = () => setImages(images.slice());
     const startTime = Date.now();
 
-    let images: ImageLogData[] = [];
-    let val: IteratorResult<string[], string[]> = {
+    setTab(TabEnum.Log);
+    setLoading(true);
+    setLogMsg('获取图片预览链接中...');
+
+    const result = gallery.getImages();
+
+    let images: LogData[] = [];
+    let val: IteratorResult<HentaiImage[], HentaiImage[]> = {
       value: [],
       done: false,
     };
 
-    setTab(TabEnum.Log);
-    setLoading(true);
+    function getImageLog(img: HentaiImage, message?: string, isError?: boolean): LogData {
+      return {
+        index: img.index,
+        name: img.data?.name ?? '未获得',
+        url: img.url,
+        message: message ?? '等待中',
+        error: isError ?? false,
+      };
+    }
 
-    // 获取链接
-    const pagesUrl = getAllPagesUrl();
-    const imagesUrl = getImagePreviewUrls(pagesUrl);
+    function updateImageLog(data: LogData) {
+      const index = images.findIndex((item) => item.index === data.index);
 
-    setLogMsg('获取图片预览链接中...');
+      if (index > -1) {
+        images.splice(index, 1, data);
+      }
+      else {
+        images.push(data);
+      }
+
+      setLogs(images.slice());
+    }
 
     while (!val.done) {
-      val = await imagesUrl.next();
-      images = createImageLog(val.value, images);
-      updateImagesLog();
+      val = await result.next();
+      images = val.value.map((item) => getImageLog(item));
+      setLogs(images);
     }
 
     setLogMsg('解析所有图片预览页面...');
 
-    for (const img of images) {
-      setLogMsg(`正在解析第 ${img.index} 张图片...`);
+    for (const img of gallery.images) {
+      try {
+        setLogMsg(`正在解析第 ${img.index} 张图片...`);
 
-      const data = await getImageUrlFromPreview(img.pageUrl);
+        const data = await img.getImageData();
 
-      // 发生错误，记录之后跳过
-      if ('error' in data) {
-        img.error = data.error;
-        updateImagesLog();
-        continue;
+        setLogMsg(`正在下载第 ${img.index} 张图片...`);
+        updateImageLog(getImageLog(img, '下载中', false));
+
+        const downloadUrl = config.imageKind === ImageKind.Origin
+          ? data.origin?.url ?? data.priview.url
+          : data.priview.url;
+
+        await download(downloadUrl, data.name);
+
+        updateImageLog(getImageLog(img, '完成', false));
       }
-      else {
-        img.name = data.name;
-        updateImagesLog();
-      }
-
-      setLogMsg(`正在下载第 ${img.index} 张图片...`);
-
-      img.error = undefined;
-      img.status = ImageStatus.Downloading;
-      updateImagesLog();
-
-      const downloadUrl = config.imageKind === ImageKind.Origin
-        ? data.originUrl ?? data.previewUrl
-        : data.previewUrl;
-
-      const downloadResult = await download(downloadUrl, img.name);
-
-      if (downloadResult) {
-        img.error = undefined;
-        img.status = ImageStatus.Downloaded;
-        updateImagesLog();
-      }
-      else {
-        img.error = ErrorCode.DownloadImage;
-        img.status = ImageStatus.Error;
-        updateImagesLog();
+      catch (err: any) {
+        updateImageLog(getImageLog(img, err.message, true));
       }
 
       await delay(400);
     }
 
+    const title = await gallery.getTitle();
+
     GM_notification({
-      text: (
-        `《${getGalleryTitle()}》下载完成，` +
-        `共耗时 ${format(Date.now() - startTime)}`
-      ),
+      title: title.title.length > 0
+        ? title.title
+        : title.subtitle,
+      text: `下载完成，共耗时 ${format(Date.now() - startTime)}`,
     });
 
     setLogMsg('下载结束');
@@ -151,7 +158,7 @@ export function DownloadPanel(props: Props) {
               component: (
                 <Log
                   message={logMsg}
-                  images={images}
+                  logs={logs}
                 />
               ),
             },

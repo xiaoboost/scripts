@@ -1,4 +1,4 @@
-import { HentaiKind, hentaiKind } from './constant';
+import { HentaiKind, hentaiKind } from './utils';
 
 /** 网站样式枚举 */
 export const HentaiStyle = {

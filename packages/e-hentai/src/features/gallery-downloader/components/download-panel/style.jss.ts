@@ -17,7 +17,7 @@ export default createStyle({
   PanelNormal: {},
   Panel: {
     width: 360,
-    top: -150,
+    top: GlobalEnv.node === 'development' ? 0 : '-15%',
     borderRadius: 10,
     position: 'relative',
 

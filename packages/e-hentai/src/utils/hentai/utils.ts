@@ -1,10 +1,3 @@
-/** 运行结果 */
-export interface Result<T> {
-  data?: T;
-  message: string;
-  extra?: string;
-}
-
 /** 画廊标题数据 */
 export interface GalleryTitle {
   title: string;
@@ -31,6 +24,8 @@ export interface ImageInfo {
 export interface GalleryImageData {
   /** 图片文件名字 */
   name: string;
+  /** 图片编号 */
+  index: number;
   /** 预览图片 */
   priview: ImageInfo;
   /** 图片原大小 */
@@ -54,7 +49,6 @@ export const IdName = {
   ImagePreviewInfo: 'i2',
   ImageOriginInfo: 'i7',
   ImagePreview: 'img',
-  ImageOrigin: 'i7',
   GalleryMainTitle: 'gj',
   GallerySubTitle: 'gn',
   GalleryData: 'gmid',
@@ -82,8 +76,5 @@ export function isSearchPage() {
 
 /** 是否是画廊页面 */
 export function isGalleryPage() {
-  return Boolean(document.querySelector(`#${IdName.GalleryData}`));
+  return location.pathname.startsWith('/g/');
 }
-
-/** 无错误信息 */
-export const NoError = 'ok';
