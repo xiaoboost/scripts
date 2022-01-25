@@ -14,8 +14,8 @@
 // @grant               GM_xmlhttpRequest
 // @grant               unsafeWindow
 // @run-at              document-start
-// @include             https://e-hentai.org/g/*
-// @include             https://exhentai.org/g/*
+// @include             https://e-hentai.org/*
+// @include             https://exhentai.org/*
 //
 // @date                2021/01/14
 // @modified            ${BUILD}

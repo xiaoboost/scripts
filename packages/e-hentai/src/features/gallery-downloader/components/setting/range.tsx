@@ -1,8 +1,8 @@
-import style from '../style.jss';
+import style from './style.jss';
 
 import { h } from 'preact';
 import { Select, IconPlus, IconDelete, IconPlaceholder } from '@scripts/components';
-import { RangeKind, RangeData, defaultRangeData } from '../constant';
+import { RangeKind, RangeData, defaultRangeData } from './constant';
 
 export interface RangeRowProps {
   data: RangeData;
