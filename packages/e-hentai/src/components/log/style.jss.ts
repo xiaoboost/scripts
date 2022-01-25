@@ -53,12 +53,12 @@ export default createStyle({
   },
   nameList: {
     flexGrow: 1,
-    maxWidth: 270,
+    maxWidth: 245,
   },
   msgList: {
     flexGrow: 1,
     borderRight: 0,
-    maxWidth: 80,
+    maxWidth: 70,
   },
   listItem: {
     borderTop: '1px solid',

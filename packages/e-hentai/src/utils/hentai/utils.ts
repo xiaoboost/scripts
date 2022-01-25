@@ -67,6 +67,12 @@ export enum HentaiKind {
   Ex,
 }
 
+export interface GalleryTorrent {
+  url: string;
+  posted: number;
+  size: number;
+}
+
 /** 当前网站类别 */
 export const hentaiKind = globalThis.location?.hostname.startsWith('exhentai')
   ? HentaiKind.Ex

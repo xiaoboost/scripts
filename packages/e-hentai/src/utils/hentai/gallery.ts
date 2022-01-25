@@ -9,12 +9,8 @@ import {
   IdName,
   ClassName,
   GalleryTitle,
+  GalleryTorrent,
 } from './utils';
-
-export interface HentaiGalleryTitle {
-  title: string;
-  subtitle: string;
-}
 
 /** 画廊类 */
 export class HentaiGallery extends PageData {
@@ -34,12 +30,18 @@ export class HentaiGallery extends PageData {
   /** 获取画廊标题 */
   async getTitle(): Promise<GalleryTitle> {
     const doc = await this.getDocument();
-    const mainTitle = doc.querySelector(`#${IdName.GalleryMainTitle}`);
-    const subTitle = doc.querySelector(`#${IdName.GallerySubTitle}`);
+    const mainTitleEl = doc.querySelector(`#${IdName.GalleryMainTitle}`);
+    const subtitleEl = doc.querySelector(`#${IdName.GallerySubTitle}`);
+    const title = mainTitleEl?.textContent ?? '';
+    const subtitle = subtitleEl?.textContent ?? '';
+
+    if (!title || !subtitle) {
+      throw new Error('获取画廊标题出错');
+    }
 
     return {
-      title: mainTitle?.textContent ?? '',
-      subtitle: subTitle?.textContent ?? '',
+      title,
+      subtitle,
     };
   }
 
@@ -146,7 +148,7 @@ export class HentaiGallery extends PageData {
    * 获取画廊种子文件
    *  - 拥有多个种子时，先按照大小选择，和画廊有5%差距中还有多个时，再按照时间选择最新上传的
    */
-  async getTorrent(): Promise<void> {
+  async getTorrent(): Promise<GalleryTorrent> {
     const doc = await this.getDocument();
     const actionEls = Array.from(doc.querySelectorAll(
       `#${IdName.RightAside} .${ClassName.RightAsideItem} a`
@@ -178,12 +180,77 @@ export class HentaiGallery extends PageData {
       throw new Error('获取种子列表页源码出错');
     }
 
+    const gallerySize = await this.getSize();
     const listPageDoc = parseFromString(listPageCode);
-    const torrentEls = Array.from(listPageDoc.querySelectorAll('form')).map((formEl) => {
-      const infoELs = formEl.querySelectorAll('table td');
-      // TODO: 解析列表页
+    const torrents = Array.from(listPageDoc.querySelectorAll('form'))
+      .map((formEl) => {
+        const infoELs = formEl.querySelectorAll('table td');
+        const textContents = Array.from(infoELs).map((item) => item.textContent ?? '');
+
+        // 解析上传日期
+        const postedKeyWord = 'Posted:';
+        const postedTime = textContents.find((text) => text.startsWith(postedKeyWord));
+        const timeString = postedTime?.replace(postedKeyWord, '')?.trim();
+
+        if (!timeString) {
+          return;
+        }
+
+        const time = new Date(timeString).getTime();
+
+        // 解析文件大小
+        const sizeKeyWord = 'Size:';
+        const fileSize = textContents.find((text) => text.startsWith(sizeKeyWord));
+        const sizeString = fileSize?.replace(sizeKeyWord, '')?.trim();
+
+        if (!sizeString) {
+          return;
+        }
+
+        const size = parseDataSize(sizeString);
+
+        // 解析下载链接
+        const downloadBtnEl = formEl.querySelector('table tr td a[href]');
+        const downloadLink = downloadBtnEl?.getAttribute('href');
+        const fileName = (downloadBtnEl?.textContent ?? '').trim();
+
+        if (!downloadBtnEl || !downloadLink || !fileName || !fileName.endsWith('.zip')) {
+          return;
+        }
+
+        return {
+          url: downloadLink,
+          posted: time,
+          size,
+        };
+      })
+      .filter(isDef);
+
+    if (torrents.length === 0) {
+      throw new Error('没有种子文件');
+    }
+
+    const sizeFiltedTorrents = torrents.filter((item) => {
+      // 小于 50MB 时，误差为 0.2
+      if (gallerySize < 50 * 1024) {
+        return Math.abs(gallerySize - item.size) < 0.2 * gallerySize;
+      }
+      // 小于 100MB 时，误差为 0.1
+      else if (gallerySize < 100 * 1024) {
+        return Math.abs(gallerySize - item.size) < 0.1 * gallerySize;
+      }
+      // 大于 100MB 时，误差为 0.05
+      else {
+        return Math.abs(gallerySize - item.size) < 0.05 * gallerySize;
+      }
     });
 
-    throw new Error('未知错误');
+    if (sizeFiltedTorrents.length === 0) {
+      throw new Error('种子体积和画廊标注不符');
+    }
+
+    const torrentSort = sizeFiltedTorrents.sort((pre, next) => pre.size < next.size ? 1 : -1);
+
+    return torrentSort[0];
   }
 }
