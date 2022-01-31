@@ -1,6 +1,6 @@
 /** 知乎页面内选择器 */
 export const ZhihuClassName = {
-  /** 主页文章列表容器 */
+  /** 主页主卡片容器 */
   MainContainer: 'Topstory-container',
   /** 主页侧边栏 */
   MainSideBar: 'GlobalSideBar',
@@ -8,6 +8,10 @@ export const ZhihuClassName = {
   MainQuestionList: 'Topstory-mainColumn',
   /** 主页问题项 */
   MainQuestionItem: 'TopstoryItem',
+  /** 主页问题列表容器 */
+  MainQuestionListContainer: 'Topstory-follow',
+  /** 主页问题标题 */
+  MainQuestionItemTitle: 'ContentItem-title',
   /** 问题列表主容器 */
   QuestionContainer: 'Question-main',
   /* 问题页面侧边栏 */
@@ -39,3 +43,13 @@ export const ZhihuClassName = {
   /** 专栏文章侧边按钮 */
   ColumnAction: 'Post-SideActions',
 } as const;
+
+/** 监听元素选项 */
+export const observerOption: MutationObserverInit = {
+  attributes: false,
+  attributeOldValue: false,
+  characterData: false,
+  characterDataOldValue: false,
+  childList: false,
+  subtree: false,
+};

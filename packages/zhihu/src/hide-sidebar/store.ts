@@ -3,6 +3,7 @@ import style from './style.jss';
 import { log } from '@scripts/utils';
 import { Watcher } from '@xiao-ai/utils';
 import { StoreKey } from './constant';
+import { observerOption } from 'src/utils/constant';
 import { addClassName, removeClassName } from '@xiao-ai/utils/web';
 
 /** 当前侧边栏状态 */
@@ -36,14 +37,10 @@ export function active() {
     });
 
     observer.observe(document.body, {
+      ...observerOption,
       attributeFilter: ['class'],
       attributes: true,
-      attributeOldValue: false,
-      characterData: false,
-      characterDataOldValue: false,
-      childList: false,
-      subtree: false,
-    })
+    });
   });
 }
 

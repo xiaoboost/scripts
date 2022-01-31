@@ -4,7 +4,9 @@ import { ZhihuClassName } from 'src/utils/constant';
 export default createStyle({
   ImageBtn: {},
   ImageBox: {},
-  ImageBoxHide: {},
+  ImageBoxHide: {
+    margin: '-4px 0',
+  },
 
   [`.${ZhihuClassName.AnswerContainer}`]: {
     '& $ImageBox': {
@@ -20,7 +22,7 @@ export default createStyle({
         'figure[data-size]': {
           width: '100%',
           margin: 0,
-          marginTop: 8,
+          marginTop: 2,
         },
       },
     },
