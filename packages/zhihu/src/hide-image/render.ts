@@ -1,31 +1,32 @@
-import { ClassName, isInBoxAttr, btnText, ImageSelector } from './constant';
+import style from './style.jss';
+
+import { isInBoxAttr, btnText } from './constant';
+import { ZhihuClassName } from 'src/utils/constant';
 import { addClassName, removeClassName } from '@xiao-ai/utils/web';
 import { isUndef } from '@xiao-ai/utils';
+import { log } from '@scripts/utils';
 
 /** 图片节点包装器 */
 export function wrapImage(img: HTMLElement) {
   const box = document.createElement('div');
   const btn = document.createElement('a');
 
-  let isHide = true;
+  let isHide = false;
 
   function setStatus() {
     if (isHide) {
-      btn.textContent = `== [${btnText[0]}] ==`;
-      img.setAttribute(isInBoxAttr, '');
-      addClassName(box, ClassName.ImageBoxHide);
-      removeClassName(box, ClassName.ImageBoxDefault);
+      btn.textContent = `═══ [${btnText[0]}] ═══`;
+      addClassName(box, style.classes.ImageBoxHide);
     }
     else {
-      btn.textContent = `== [${btnText[1]}] ==`;
-      img.removeAttribute(isInBoxAttr);
-      addClassName(box, ClassName.ImageBoxDefault);
-      removeClassName(box, ClassName.ImageBoxHide);
+      btn.textContent = `╔══ [${btnText[1]}] ══╗`;
+      removeClassName(box, style.classes.ImageBoxHide);
     }
   }
 
-  box.setAttribute('class', ClassName.ImageBox);
-  btn.setAttribute('class', ClassName.ImageBtn);
+  img.setAttribute(isInBoxAttr, 'true');
+  box.setAttribute('class', style.classes.ImageBox);
+  btn.setAttribute('class', style.classes.ImageBtn);
   box.appendChild(btn);
   box.appendChild(img);
 
@@ -39,13 +40,23 @@ export function wrapImage(img: HTMLElement) {
   return box;
 }
 
+/** 包装所有图片 */
 export function wrapAllImage() {
-  (Array.from(document.querySelectorAll(ImageSelector)) as HTMLElement[])
+  if (GlobalEnv.node === 'development') {
+    log('刷新页面中的所有图片');
+  }
+
+  const tempDiv = document.createElement('div');
+  const selector = `.${ZhihuClassName.AnswerContainer} figure[data-size]`;
+
+  (Array.from(document.querySelectorAll(selector)) as HTMLElement[])
     .filter((img) => isUndef(img.getAttribute(isInBoxAttr)))
     .forEach((img) => {
       const parent = img.parentElement;
+
       if (parent) {
-        parent.insertBefore(wrapImage(img), img);
+        parent.replaceChild(tempDiv, img);
+        parent.replaceChild(wrapImage(img), tempDiv);
       }
     });
 }

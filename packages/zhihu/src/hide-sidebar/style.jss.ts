@@ -1,6 +1,8 @@
 import { createStyle } from '@scripts/utils';
 import { ZhihuClassName } from 'src/utils/constant';
 
+const maxWidth = 1000;
+
 export default createStyle({
   [`.${ZhihuClassName.MainContainer}, .${ZhihuClassName.QuestionContainer}`]: {
     position: 'relative',
@@ -34,10 +36,15 @@ export default createStyle({
       & .${ZhihuClassName.SearchItemList}
     `.trim()]: {
       marginRight: '0',
-      width: '100%',
+      width: `${maxWidth}px !important`,
+      maxWidth: '100%',
     },
     [`& .${ZhihuClassName.AnswerContainer} figure img`]: {
       maxWidth: '70%',
+    },
+    [`& .${ZhihuClassName.AnswerBottomAction}`]: {
+      width: `${maxWidth}px !important`,
+      maxWidth: '100%',
     },
   },
 });

@@ -1,21 +1,31 @@
 import style from './style.jss';
 
+import { addStyle, log } from '@scripts/utils';
 import { debounce } from '@xiao-ai/utils';
-import { addStyle } from '@scripts/utils';
 import { observerOption } from 'src/utils/constant';
-import { wrapAllImage } from './render';
+import { listSelector } from './utils';
+import { wrapAllAnswer } from './render';
 
 addStyle(style.toString());
 
 export function active() {
   unsafeWindow.addEventListener('load', () => {
-    const wrapImageDebounce = debounce(wrapAllImage, 200);
+    const listDom = document.querySelector(listSelector);
+
+    if (!listDom) {
+      if (GlobalEnv.node === 'development') {
+        log('未发现问题列表容器元素，已读问题标记失败');
+      }
+
+      return;
+    }
+
+    const wrapImageDebounce = debounce(wrapAllAnswer, 200);
     const observer = new MutationObserver(wrapImageDebounce);
 
     observer.observe(document.body, {
       ...observerOption,
       childList: true,
-      subtree: true,
     });
 
     wrapImageDebounce();
