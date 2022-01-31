@@ -5,7 +5,7 @@ export default createStyle({
   ImageBtn: {},
   ImageBox: {},
   ImageBoxHide: {
-    margin: '-4px 0',
+    margin: '0',
   },
 
   [`.${ZhihuClassName.AnswerContainer}`]: {
