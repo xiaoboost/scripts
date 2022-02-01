@@ -6,6 +6,6 @@ export default createStyle({
     flexDirection: 'row-reverse',
   },
   downloadBtn: {
-    margin: '-16px 8px 4px 0 !important;',
+    margin: '-16px 8px 4px 0 !important',
   },
 });
