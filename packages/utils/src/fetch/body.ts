@@ -4,8 +4,6 @@ import { isString } from '@xiao-ai/utils';
 export type BodyInput = string | Blob | FormData;
 
 export class Body {
-  bodyUsed = false;
-
   private _bodyText?: string;
   private _bodyBuffer?: FormData;
   private _bodyBlob?: Blob;
@@ -28,21 +26,7 @@ export class Body {
     }
   }
 
-  private consumed() {
-    if (this.bodyUsed) {
-      return Promise.reject(new TypeError('Already read'));
-    }
-
-    this.bodyUsed = true;
-  }
-
   blob() {
-    const rejected = this.consumed();
-
-    if (rejected) {
-      return rejected;
-    }
-
     if (this._bodyBlob) {
       return Promise.resolve(this._bodyBlob);
     }
@@ -56,12 +40,6 @@ export class Body {
   }
 
   arrayBuffer() {
-    const rejected = this.consumed();
-
-    if (rejected) {
-      return rejected;
-    }
-
     if (this._bodyBuffer) {
       return Promise.resolve(this._bodyBuffer);
     }
@@ -74,12 +52,6 @@ export class Body {
   }
 
   text(): Promise<string> {
-    const rejected =this.consumed();
-
-    if (rejected) {
-      return rejected
-    }
-
     if (this._bodyBlob) {
       return readBlobAsText(this._bodyBlob);
     }
