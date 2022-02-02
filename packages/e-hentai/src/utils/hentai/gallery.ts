@@ -28,21 +28,18 @@ export class HentaiGallery extends PageData {
   }
 
   /** 获取画廊标题 */
-  async getTitle(): Promise<GalleryTitle> {
+  async getTitle(): Promise<string> {
     const doc = await this.getDocument();
     const mainTitleEl = doc.querySelector(`#${IdName.GalleryMainTitle}`);
     const subtitleEl = doc.querySelector(`#${IdName.GallerySubTitle}`);
     const title = mainTitleEl?.textContent ?? '';
     const subtitle = subtitleEl?.textContent ?? '';
 
-    if (!title || !subtitle) {
+    if (!title && !subtitle) {
       throw new Error('获取画廊标题出错');
     }
 
-    return {
-      title,
-      subtitle,
-    };
+    return title.length > 0 ? title : subtitle;
   }
 
   /**

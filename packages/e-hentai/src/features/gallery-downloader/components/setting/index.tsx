@@ -4,11 +4,11 @@ import { h } from 'preact';
 import { addStyle } from '@scripts/utils';
 import { Select } from '@scripts/components';
 
-// import { RangeBox } from './range';
+import { RangeBox } from './range';
 import { FormBox, FormRow } from './form';
-import { ImageKind, SettingData } from './constant';
+import { ImageKind, SettingData } from './utils';
 
-export * from './constant';
+export * from './utils';
 
 addStyle(style.toString());
 
@@ -51,13 +51,13 @@ export function Setting(props: Props) {
             />
           </FormRow>
         </FormBox>
-        {/* <FormBox title='下载范围'>
+        <FormBox title='下载范围'>
           <RangeBox
-            data={props.data.range}
+            data={props.data.ranges}
             disabled={props.disabled}
-            onChange={(range) => onChange({ range })}
+            onChange={(ranges) => onChange({ ranges })}
           />
-        </FormBox> */}
+        </FormBox>
       </article>
       <footer className={style.classes.footer}>
         <button

@@ -1,8 +1,15 @@
 import style from './style.jss';
 
 import { h } from 'preact';
+import { useState, useEffect } from 'preact/hooks';
 import { Select, IconPlus, IconDelete, IconPlaceholder } from '@scripts/components';
-import { RangeKind, RangeData, defaultRangeData } from './constant';
+
+import {
+  RangeKind,
+  RangeData,
+  defaultRangeData,
+} from './utils';
+import { isDef } from '@xiao-ai/utils';
 
 export interface RangeRowProps {
   data: RangeData;
@@ -12,7 +19,32 @@ export interface RangeRowProps {
   onChange(data: RangeData): void;
 }
 
+function getKind(data: RangeData) {
+  return isDef(data.end) ? RangeKind.Range : RangeKind.Single;
+}
+
 export function RangeRow(props: RangeRowProps) {
+  const [kind, setKind] = useState<RangeKind>(getKind(props.data));
+
+  useEffect(() => {
+    setKind(getKind(props.data));
+  }, [props.data]);
+
+  const onChangeKind = (kind: RangeKind) => {
+    const { data } = props;
+    const newData = { ...data };
+
+    if (kind === RangeKind.Range) {
+      if (!isDef(newData.end)) {
+        newData.end = 4000;
+      }
+    }
+    else if (kind === RangeKind.Single) {
+      delete newData.end;
+    }
+
+    props.onChange?.(newData);
+  };
   const onChange = (data: Partial<RangeData>) => {
     props.onChange?.({
       ...props.data,
@@ -23,10 +55,10 @@ export function RangeRow(props: RangeRowProps) {
   return (
     <div className={style.classes.rangeRow}>
       <Select
-        value={props.data.kind}
+        value={kind}
         disabled={props.disabled}
         defaultValue={RangeKind.Range}
-        onChange={(kind: RangeKind) => onChange({ kind })}
+        onChange={(kind: RangeKind) => onChangeKind(kind)}
         style={{ width: 70 }}
         options={[
           {
@@ -39,7 +71,7 @@ export function RangeRow(props: RangeRowProps) {
           },
         ]}
       />
-      {props.data.kind === RangeKind.Range && (
+      {kind === RangeKind.Range && (
         <input
           className={style.classes.rangeInput}
           disabled={props.disabled}
@@ -53,10 +85,10 @@ export function RangeRow(props: RangeRowProps) {
           step='1'
         />
       )}
-      {props.data.kind === RangeKind.Range && (
+      {kind === RangeKind.Range && (
         <span>至</span>
       )}
-      {props.data.kind === RangeKind.Range && (
+      {kind === RangeKind.Range && (
         <input
           className={style.classes.rangeInput}
           disabled={props.disabled}
@@ -70,7 +102,7 @@ export function RangeRow(props: RangeRowProps) {
           step='1'
         />
       )}
-      {props.data.kind === RangeKind.Single && (
+      {kind === RangeKind.Single && (
         <input
           className={style.classes.rangeInput}
           disabled={props.disabled}

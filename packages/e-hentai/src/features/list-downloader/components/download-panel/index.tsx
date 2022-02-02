@@ -73,7 +73,7 @@ export function DownloadPanel(props: Props) {
 
         await download(
           torrent.url,
-          `{EHT Torrent} - ${title.title ? title.title : title.subtitle}.torrent`,
+          `${title}.zip.torrent`,
         );
 
         logData[i].message = '下载完成';

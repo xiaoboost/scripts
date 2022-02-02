@@ -13,7 +13,7 @@ import {
 import { TabEnum } from './constant';
 import { Modal } from 'src/components/modal';
 import { Log, LogData } from "src/components/log";
-import { Setting, defaultSetting, SettingData, ImageKind } from "../setting";
+import { Setting, defaultSetting, SettingData, ImageKind, Range } from "../setting";
 
 export interface Props {
   visible: boolean;
@@ -45,7 +45,9 @@ export function DownloadPanel(props: Props) {
     setLogMsg('获取图片预览链接中...');
 
     const result = gallery.getImages();
+    const range = new Range(config.ranges);
 
+    let errorStop = false;
     let images: LogData[] = [];
     let val: IteratorResult<HentaiImage[], HentaiImage[]> = {
       value: [],
@@ -75,15 +77,38 @@ export function DownloadPanel(props: Props) {
       setLogs(images.slice());
     }
 
+    function setStopImageLog(imgIndex: number, message: string) {
+      const logIndex = images.findIndex((item) => item.index === imgIndex);
+
+      if (logIndex < 0) {
+        return;
+      }
+
+      images[logIndex].error = true;
+      images[logIndex].message = message;
+
+      for (let i = logIndex + 1; i < images.length; i++) {
+        images[i].message = '停止';
+      }
+
+      setLogs(images.slice());
+    }
+
     while (!val.done) {
       val = await result.next();
-      images = val.value.map((item) => getImageLog(item));
+      images = val.value
+        .map((item) => getImageLog(item))
+        .filter((item) => range.includes(item.index));
+
       setLogs(images);
     }
 
     setLogMsg('解析所有图片预览页面...');
 
-    for (const img of gallery.images) {
+    const galleryImages = gallery.images
+      .filter((img) => range.includes(img.index));
+
+    for (const img of galleryImages) {
       try {
         setLogMsg(`正在解析第 ${img.index} 张图片...`);
 
@@ -96,12 +121,31 @@ export function DownloadPanel(props: Props) {
           ? data.origin?.url ?? data.priview.url
           : data.priview.url;
 
-        await download(downloadUrl, data.name);
+        await download(downloadUrl, data.name, async (blob, response) => {
+          if (blob.type.includes('text/html')) {
+            const htmlText = await response.text();
+
+            errorStop = true;
+
+            if (htmlText.includes('You have exceeded your image viewing limits')) {
+              return '流量超限';
+            }
+            else {
+              return htmlText.split('.')[0];
+            }
+          }
+        });
 
         updateImageLog(getImageLog(img, '完成', false));
       }
       catch (err: any) {
-        updateImageLog(getImageLog(img, err.message, true));
+        if (errorStop) {
+          setStopImageLog(img.index, err.message);
+          break;
+        }
+        else {
+          updateImageLog(getImageLog(img, err.message, true));
+        }
       }
 
       await delay(400);
@@ -110,14 +154,18 @@ export function DownloadPanel(props: Props) {
     const title = await gallery.getTitle();
 
     GM_notification({
-      title: title.title.length > 0
-        ? title.title
-        : title.subtitle,
-      text: `下载完成，共耗时 ${format(Date.now() - startTime)}`,
+      title,
+      text: `下载${errorStop ? '未' : ''}完成，共耗时 ${format(Date.now() - startTime)}`,
     });
 
-    setLogMsg('下载结束');
     setLoading(false);
+
+    if (errorStop) {
+      setLogMsg('下载出错停止');
+    }
+    else {
+      setLogMsg('下载正常结束');
+    }
   };
 
   if (!props.visible) {

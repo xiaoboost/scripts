@@ -1,6 +1,8 @@
 import { Response } from "./response";
 import { parseHeaders } from './utils';
 
+export * from './response';
+
 export function fetch(input: string, init: Omit<Tampermonkey.Request, 'url'> = {}) {
   return new Promise<Response>(function (resolve, reject) {
     const xhr_details: Tampermonkey.Request = {
