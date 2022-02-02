@@ -71,23 +71,21 @@ export function RangeRow(props: RangeRowProps) {
           },
         ]}
       />
-      {kind === RangeKind.Range && (
-        <input
-          className={style.classes.rangeInput}
-          disabled={props.disabled}
-          value={props.data.start}
-          onChange={({ currentTarget: el }) => {
-            onChange({ start: Number.parseInt(el.value) });
-          }}
-          style={{ width: 60 }}
-          type='number'
-          min='0'
-          step='1'
-        />
-      )}
-      {kind === RangeKind.Range && (
-        <span>至</span>
-      )}
+      <input
+        className={style.classes.rangeInput}
+        disabled={props.disabled}
+        value={props.data.start}
+        onChange={({ currentTarget: el }) => {
+          onChange({ start: Number.parseInt(el.value) });
+        }}
+        style={{ width: 60 }}
+        type='number'
+        min='0'
+        step='1'
+      />
+      <span style={{ flexGrow: 1, textAlign: 'center' }}>
+        {kind === RangeKind.Range ? '至' : ''}
+      </span>
       {kind === RangeKind.Range && (
         <input
           className={style.classes.rangeInput}
@@ -102,26 +100,15 @@ export function RangeRow(props: RangeRowProps) {
           step='1'
         />
       )}
-      {kind === RangeKind.Single && (
-        <input
-          className={style.classes.rangeInput}
-          disabled={props.disabled}
-          value={props.data.start}
-          onChange={({ currentTarget: el }) => {
-            onChange({ end: Number.parseInt(el.value) });
-          }}
-          style={{ width: 100 }}
-          type='number'
-          min='0'
-          step='1'
-        />
-      )}
       {props.allowDelelte
         ? <IconDelete
           className={style.classes.rangeDelete}
           onClick={props.onDelete}
+          style={{ marginRight: 0 }}
         />
-        : <IconPlaceholder />
+        : <IconPlaceholder
+          style={{ marginRight: 0 }}
+        />
       }
     </div>
   );
