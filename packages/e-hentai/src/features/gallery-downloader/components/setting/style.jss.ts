@@ -1,5 +1,4 @@
 import { createStyle } from '@scripts/utils';
-import { HentaiKind, HentaiStyle } from 'src/utils';
 
 const formBorderColor = '#8D8D8D';
 const actionColor = '#888';
@@ -58,12 +57,12 @@ export default createStyle({
   rangeRow: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-between',
     marginBottom: 12,
 
     '& > *': {
       height: 24,
       lineHeight: '24px',
+      marginRight: 24,
       borderColor: `${formBorderColor} !important`,
     },
   },
@@ -92,6 +91,7 @@ export default createStyle({
     color: actionColor,
     borderRadius: 4,
     cursor: 'pointer',
+    boxSizing: 'border-box',
     transition: 'color .3s, border-color .3s',
 
     '&:hover': {

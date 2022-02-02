@@ -1,7 +1,7 @@
 {
   "name": "@scripts/e-hentai",
   "displayName": "绅士辅助工具",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "绅士站的辅助脚本，提供在线下载功能",
   "author": "xiaoboost",
   "license": "GPLv3.0",
