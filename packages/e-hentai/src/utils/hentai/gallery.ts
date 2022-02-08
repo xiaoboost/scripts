@@ -122,7 +122,10 @@ export class HentaiGallery extends PageData {
       }
 
       const newDocument = parseFromString(html);
-      const imageSelector = `#${IdName.ImageListBox} .${ClassName.ImageBox} a`;
+      const imageSelector = [
+        `#${IdName.ImageListBox} .${ClassName.ImageBoxMedium} a`,
+        `#${IdName.ImageListBox} .${ClassName.ImageBoxLarge} a`,
+      ].join(',');
       const imageElements = Array.from(newDocument.querySelectorAll(imageSelector));
       const imageUrls = imageElements
         .map((item) => item.getAttribute('href'))

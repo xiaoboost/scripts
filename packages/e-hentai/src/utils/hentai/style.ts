@@ -4,7 +4,7 @@ import { HentaiKind, hentaiKind } from './utils';
 export const HentaiStyle = {
   [HentaiKind.Normal]: {
     backgroundColor: '#E3E0D1',
-    textColor: '#f1f1f1',
+    textColor: '#5C0D11',
     shadowColor: '#4c0d01',
     buttonColor: '#5C0D11',
     borderColor: '#5C0D12',
