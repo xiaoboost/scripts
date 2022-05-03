@@ -1,6 +1,6 @@
 import style from './style.jss';
 
-import { log } from '@scripts/utils';
+import { log, onLoad } from '@scripts/utils';
 import { Watcher } from '@xiao-ai/utils';
 import { StoreKey } from './constant';
 import { observerOption } from 'src/utils/constant';
@@ -24,7 +24,7 @@ function setStatus(val: boolean) {
 
 /** 初始化 */
 export function active() {
-  unsafeWindow.addEventListener('load', () => {
+  onLoad(unsafeWindow, () => {
     setStatus(isHide.data);
 
     // body 属性变更时重置类属性

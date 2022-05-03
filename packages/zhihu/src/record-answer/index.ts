@@ -1,6 +1,6 @@
 import style from './style.jss';
 
-import { addStyle, log } from '@scripts/utils';
+import { addStyle, log, onLoad } from '@scripts/utils';
 import { debounce } from '@xiao-ai/utils';
 import { observerOption } from 'src/utils/constant';
 import { listSelector } from './utils';
@@ -9,7 +9,7 @@ import { wrapAllAnswer } from './render';
 addStyle(style.toString());
 
 export function active() {
-  unsafeWindow.addEventListener('load', () => {
+  onLoad(unsafeWindow, () => {
     const listDom = document.querySelector(listSelector);
 
     if (!listDom) {

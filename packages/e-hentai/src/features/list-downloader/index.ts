@@ -1,5 +1,5 @@
 import { renderToDom, ClassName, IdName, isSearchPage } from 'src/utils';
-import { log } from '@scripts/utils';
+import { log, onLoad } from '@scripts/utils';
 import { Checkbox } from './components/checkbox';
 import { MainButton } from './components/download-button';
 import { selected } from './store';
@@ -9,7 +9,7 @@ export function active() {
     return;
   }
 
-  unsafeWindow.addEventListener('load', () => {
+  onLoad(unsafeWindow, () => {
     const galleryList = document.querySelector(`#${IdName.SearchOption} + div`);
     const galleryFooter = Array.from(document.querySelectorAll(
       `.${ClassName.GalleryFooterInSearchPage}`
