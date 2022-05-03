@@ -39,3 +39,12 @@ export function getOffset(el: HTMLElement) {
 
   return { left, top };
 }
+
+/** 网页加载完成时触发 */
+export function onLoad(window: Window, cb: () => void) {
+  if (document.readyState === 'complete') {
+    cb();
+  }
+
+  window.addEventListener('load', cb);
+}

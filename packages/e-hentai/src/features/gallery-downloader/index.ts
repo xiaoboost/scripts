@@ -1,13 +1,13 @@
 import { MainButton } from './components/download-button';
 import { renderToDom, IdName, isGalleryPage } from 'src/utils';
-import { log } from '@scripts/utils';
+import { log, onLoad } from '@scripts/utils';
 
 export function active() {
   if (!isGalleryPage()) {
     return;
   }
 
-  unsafeWindow.addEventListener('load', () => {
+  onLoad(unsafeWindow, () => {
     const rightAside = document.querySelector(`#${IdName.RightAside}`);
 
     if (!rightAside) {
