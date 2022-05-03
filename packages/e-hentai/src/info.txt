@@ -17,7 +17,7 @@
 // @include             https://e-hentai.org/*
 // @include             https://exhentai.org/*
 //
-// @date                2021/01/14
+// @date                2022/01/14
 // @modified            ${BUILD}
 // @version             ${VERSION}
 // ==/UserScript==
