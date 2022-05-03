@@ -19,7 +19,7 @@
 // @include             https://www.zhihu.com/*
 // @include             https://zhuanlan.zhihu.com/*
 //
-// @date                2021/01/05
+// @date                2022/01/05
 // @modified            ${BUILD}
 // @version             ${VERSION}
 // ==/UserScript==
